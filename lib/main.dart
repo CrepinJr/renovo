@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
+
 import 'core/theme/app_theme.dart';
+import 'firebase_options.dart';
 import 'providers/theme_provider.dart';
 import 'screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseFirestore.instance.settings = const Settings(
+    persistenceEnabled: true,
+  );
+
   // Disable runtime font fetching over network to guarantee instant 100% offline first frame render
   GoogleFonts.config.allowRuntimeFetching = false;
   // Initialize French date locale symbols for table_calendar and intl formatting
   await initializeDateFormatting('fr_FR', null);
 
-  runApp(
-    const ProviderScope(
-      child: RenovoApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: RenovoApp()));
 }
 
 class RenovoApp extends ConsumerWidget {
@@ -35,9 +40,7 @@ class RenovoApp extends ConsumerWidget {
       darkTheme: AppTheme.darkTheme,
       themeMode: themeMode,
       locale: const Locale('fr', 'FR'),
-      supportedLocales: const [
-        Locale('fr', 'FR'),
-      ],
+      supportedLocales: const [Locale('fr', 'FR')],
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

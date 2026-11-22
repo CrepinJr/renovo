@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "698676411175",
+    "project_id": "renovo-82d58",
+    "storage_bucket": "renovo-82d58.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:698676411175:android:da12aff7e6879290314702",
+        "android_client_info": {
+          "package_name": "com.example.renovo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "698676411175-o0qaamcr6u8pr8qe7vp9qg7hnh4m50pl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.renovo",
+            "certificate_hash": "806fc34355141b6f12a8ae8b1b1f2e95ba71eaee"
+          }
+        },
+        {
+          "client_id": "698676411175-dj760nhp0m30bp12f1n1snq2gb3sh9h4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgEYRn4hrWoZdyn4-BZjhANJDKySvZUqw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "698676411175-dj760nhp0m30bp12f1n1snq2gb3sh9h4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "698676411175-6je1qrmm9ofua2tel0q89kf9mltgj2oc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.renovo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

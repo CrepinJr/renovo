@@ -46,3 +46,14 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+
+# Signatures & secrets
+*.jks
+*.keystore
+key.properties
+.env
+*service-account*.json
+
+# Fichiers temporaires et exports locaux
+*.csv
+renovo_bilan_*.png

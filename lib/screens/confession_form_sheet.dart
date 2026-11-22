@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../core/theme/app_theme.dart';
 import '../core/utils/date_utils.dart';
 import '../data/models/confession.dart';
+import '../data/repositories/confession_repository.dart';
 import '../providers/confessions_provider.dart';
 
 /// Modal bottom sheet for adding or editing an effective confession.
@@ -73,6 +74,7 @@ class _ConfessionFormSheetState extends ConsumerState<ConfessionFormSheet> {
     setState(() => _isSaving = true);
     final parish = _parishController.text.trim();
     final notes = _notesController.text.trim().isEmpty ? null : _notesController.text.trim();
+    var writeStatus = ConfessionWriteStatus.completed;
 
     try {
       if (widget.confessionToEdit != null) {
@@ -81,9 +83,13 @@ class _ConfessionFormSheetState extends ConsumerState<ConfessionFormSheet> {
           parish: parish,
           notes: notes,
         );
-        await ref.read(confessionsProvider.notifier).updateConfession(updated);
+        writeStatus = await ref
+            .read(confessionsProvider.notifier)
+            .updateConfession(updated);
       } else {
-        await ref.read(confessionsProvider.notifier).addConfession(
+        writeStatus = await ref
+            .read(confessionsProvider.notifier)
+            .addConfession(
               date: _selectedDate,
               parish: parish,
               notes: notes,
@@ -95,7 +101,9 @@ class _ConfessionFormSheetState extends ConsumerState<ConfessionFormSheet> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              widget.confessionToEdit != null
+              writeStatus == ConfessionWriteStatus.pending
+                  ? 'Enregistrée sur cet appareil. Synchronisation en attente.'
+                  : widget.confessionToEdit != null
                   ? 'Confession mise à jour.'
                   : 'Confession enregistrée.',
             ),

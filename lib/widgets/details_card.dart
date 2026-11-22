@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../core/theme/app_theme.dart';
 import '../core/utils/date_utils.dart';
 import '../data/models/confession.dart';
+import '../data/repositories/confession_repository.dart';
 import '../providers/confessions_provider.dart';
 import '../providers/predictions_provider.dart';
 import '../providers/selected_date_provider.dart';
@@ -309,12 +310,19 @@ class DetailsCard extends ConsumerWidget {
       ),
     );
 
-    if (confirmed == true && confession.id != null) {
-      await ref.read(confessionsProvider.notifier).deleteConfession(confession.id!);
+    if (confirmed == true &&
+        (confession.id != null || confession.remoteId != null)) {
+      final status = await ref
+          .read(confessionsProvider.notifier)
+          .deleteConfession(confession);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Confession supprimée.'),
+          SnackBar(
+            content: Text(
+              status == ConfessionWriteStatus.pending
+                  ? 'Suppression en attente de synchronisation.'
+                  : 'Confession supprimée.',
+            ),
             duration: Duration(seconds: 2),
           ),
         );

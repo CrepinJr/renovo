@@ -1,23 +1,26 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/utils/date_utils.dart';
-import '../data/database/database_helper.dart';
 import '../data/models/confession.dart';
+import '../data/repositories/confession_repository.dart';
+import 'confession_repository_provider.dart';
 
 /// Modern Riverpod AsyncNotifier managing the list of confessions.
 class ConfessionsNotifier extends AsyncNotifier<List<Confession>> {
   @override
   Future<List<Confession>> build() async {
-    return await DatabaseHelper.instance.getAllConfessions();
+    return ref.watch(confessionRepositoryProvider).getAllConfessions();
   }
 
-  Future<void> refreshConfessions() async {
+  Future<void> refreshConfessions({bool cacheOnly = false}) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      return await DatabaseHelper.instance.getAllConfessions();
+      return ref
+          .read(confessionRepositoryProvider)
+          .getAllConfessions(cacheOnly: cacheOnly);
     });
   }
 
-  Future<void> addConfession({
+  Future<ConfessionWriteStatus> addConfession({
     required DateTime date,
     required String parish,
     String? notes,
@@ -27,18 +30,27 @@ class ConfessionsNotifier extends AsyncNotifier<List<Confession>> {
       parish: parish,
       notes: notes,
     );
-    await DatabaseHelper.instance.insertConfession(confession);
-    await refreshConfessions();
+    final status = await ref
+        .read(confessionRepositoryProvider)
+        .insertConfession(confession);
+    await refreshConfessions(cacheOnly: status == ConfessionWriteStatus.pending);
+    return status;
   }
 
-  Future<void> updateConfession(Confession confession) async {
-    await DatabaseHelper.instance.updateConfession(confession);
-    await refreshConfessions();
+  Future<ConfessionWriteStatus> updateConfession(Confession confession) async {
+    final status = await ref
+        .read(confessionRepositoryProvider)
+        .updateConfession(confession);
+    await refreshConfessions(cacheOnly: status == ConfessionWriteStatus.pending);
+    return status;
   }
 
-  Future<void> deleteConfession(int id) async {
-    await DatabaseHelper.instance.deleteConfession(id);
-    await refreshConfessions();
+  Future<ConfessionWriteStatus> deleteConfession(Confession confession) async {
+    final status = await ref
+        .read(confessionRepositoryProvider)
+        .deleteConfession(confession);
+    await refreshConfessions(cacheOnly: status == ConfessionWriteStatus.pending);
+    return status;
   }
 }
 
@@ -78,5 +90,5 @@ final confessionsMapProvider = Provider<Map<DateTime, Confession>>((ref) {
 /// Provider for distinct parish names for autocomplete suggestions.
 final parishesProvider = FutureProvider<List<String>>((ref) async {
   ref.watch(confessionsProvider);
-  return await DatabaseHelper.instance.getDistinctParishes();
+  return ref.watch(confessionRepositoryProvider).getDistinctParishes();
 });

@@ -1,0 +1,222 @@
+<!DOCTYPE html><html lang="fr"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Renovo — Déconnexion</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'liturgical-indigo': '#2C3E6B',
+        'on-liturgical-indigo': '#FFFFFF',
+        'sage-emerald': '#2E7D5B',
+        'on-sage-emerald': '#FFFFFF',
+        'sage-tint': '#E8F3EE',
+        'on-sage-tint': '#003824',
+        'antique-gold': '#D49A3A',
+        'on-antique-gold': '#281800',
+        'gold-tint': '#FFEEDB',
+        'on-gold-tint': '#442C00',
+        'alabaster': '#FAF8F5',
+        'obsidian': '#121316',
+        'slate-charcoal': '#1C1E24',
+        'light-primary': '#2C3E6B',
+        'light-on-primary': '#FFFFFF',
+        'light-primary-container': '#DAE2FF',
+        'light-on-primary-container': '#021945',
+        'light-surface': '#FAF8F5',
+        'light-surface-container': '#FFFFFF',
+        'light-surface-container-low': '#F2F0ED',
+        'light-on-surface': '#1C1B18',
+        'light-on-surface-variant': '#5E5E5C',
+        'light-outline': '#EAE5DC',
+        'light-outline-variant': '#E4E2DF',
+        'dark-primary': '#B4C5FB',
+        'dark-on-primary': '#021945',
+        'dark-primary-container': '#1C2F5B',
+        'dark-on-primary-container': '#DAE2FF',
+        'dark-surface': '#121316',
+        'dark-surface-container': '#1C1E24',
+        'dark-surface-container-low': '#191B23',
+        'dark-on-surface': '#F3F1ED',
+        'dark-on-surface-variant': '#ACABA8',
+        'dark-outline': '#2A2D35',
+        'dark-outline-variant': '#2E3038',
+      },
+      borderRadius: {
+        'sm': '6px',
+        'DEFAULT': '12px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '20px',
+        '2xl': '24px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '12px',
+        'gutter-lg': '16px',
+        'gutter-xl': '20px',
+        'section': '24px',
+        'page-margin': '20px',
+      },
+      fontFamily: {
+        'display': ['"Lora"', 'sans-serif'],
+        'headline': ['"Lora"', 'sans-serif'],
+        'title': ['"Plus Jakarta Sans"', 'sans-serif'],
+        'body': ['"Plus Jakarta Sans"', 'sans-serif'],
+        'label': ['"Plus Jakarta Sans"', 'sans-serif'],
+      },
+      fontSize: {
+        'display-lg': ['40px', { lineHeight: '48px', letterSpacing: '-0.5px', fontWeight: '500' }],
+        'display-lg-mobile': ['32px', { lineHeight: '38px', letterSpacing: '-0.25px', fontWeight: '500' }],
+        'headline-lg': ['28px', { lineHeight: '34px', letterSpacing: '-0.25px', fontWeight: '600' }],
+        'headline-md': ['22px', { lineHeight: '28px', letterSpacing: '-0.15px', fontWeight: '600' }],
+        'title-lg': ['18px', { lineHeight: '24px', letterSpacing: '-0.1px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-md': ['14px', { lineHeight: '21px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-sm': ['13px', { lineHeight: '19px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['14px', { lineHeight: '20px', letterSpacing: '0.1px', fontWeight: '600' }],
+        'label-md': ['12px', { lineHeight: '16px', letterSpacing: '0.2px', fontWeight: '500' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.3px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '260ms',
+        'surface-exit': '180ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>
+    .material-symbols-outlined {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      line-height: 1 !important;
+      box-sizing: content-box;
+      overflow: hidden;
+      white-space: nowrap;
+      direction: ltr;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body class="bg-light-surface dark:bg-dark-surface text-light-on-surface dark:text-dark-on-surface font-body antialiased transition-colors duration-surface-enter ease-surface-enter">
+  <div class="min-h-[884px] w-full max-w-[390px] mx-auto relative flex flex-col justify-end overflow-hidden" data-stitch-vh="min-h-[884px]===min-h-screen">
+
+    <!-- Quiet Underlying Account & Backup Context -->
+    <div aria-hidden="true" class="px-page-margin pt-gutter-lg flex flex-col gap-gutter-lg pointer-events-none select-none">
+      <div class="flex items-center justify-between pt-gutter-xs">
+        <div class="flex items-center gap-gutter-sm">
+          <span class="w-9 h-9 rounded-full bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline"></span>
+          <span class="w-36 h-6 rounded-md bg-light-surface-container-low dark:bg-dark-surface-container-low"></span>
+        </div>
+        <span class="w-9 h-9 rounded-full bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline"></span>
+      </div>
+      <div class="bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline rounded-xl p-gutter-xl h-44 flex flex-col gap-gutter-md">
+        <div class="flex items-center gap-gutter-md">
+          <span class="w-12 h-12 rounded-full bg-light-surface-container-low dark:bg-dark-surface-container-low"></span>
+          <span class="w-32 h-5 rounded-md bg-light-surface-container-low dark:bg-dark-surface-container-low"></span>
+        </div>
+        <span class="w-full h-16 rounded-md bg-light-surface-container-low dark:bg-dark-surface-container-low"></span>
+      </div>
+    </div>
+
+    <!-- Scrim Overlay -->
+    <div class="fixed inset-0 max-w-[390px] mx-auto bg-obsidian/35 z-10 pointer-events-none"></div>
+
+    <!-- Sign-Out Confirmation Bottom Sheet Modal -->
+    <section role="dialog" aria-modal="true" aria-labelledby="signout-title" class="relative z-20 w-full bg-light-surface-container dark:bg-dark-surface-container border-t border-x border-light-outline dark:border-dark-outline rounded-t-2xl px-page-margin pt-gutter-md pb-section shadow-xl flex flex-col items-center text-center gap-gutter-lg">
+      <!-- Drag Handle -->
+      <div class="flex justify-center w-full">
+        <span class="w-10 h-1 rounded-full bg-light-outline dark:bg-dark-outline" aria-hidden="true"></span>
+      </div>
+
+      <!-- Indigo Logout / Backup Icon -->
+      <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-light-primary-container dark:bg-dark-primary-container border border-light-outline dark:border-dark-outline text-liturgical-indigo dark:text-dark-primary">
+        <span class="material-symbols-outlined text-[26px]" aria-hidden="true">cloud_done</span>
+      </div>
+
+      <!-- Header: Lora Title + Explanation -->
+      <div class="flex flex-col items-center gap-gutter-sm">
+        <h1 id="signout-title" class="font-headline text-headline-md text-light-on-surface dark:text-dark-on-surface text-balance" data-design-text-token="headline-md">
+          Se déconnecter du compte ?
+        </h1>
+        <p class="font-body text-body-md text-light-on-surface-variant dark:text-dark-on-surface-variant text-pretty" data-design-text-token="body-md">
+          Vos données restent en sécurité dans votre compte Google. Que souhaitez-vous afficher sur cet appareil en mode local ?
+        </p>
+      </div>
+
+      <!-- Two Distinct Choice Cards / Buttons -->
+      <div class="w-full flex flex-col gap-gutter-md text-left">
+        <!-- Option 1: Primary Indigo (#2C3E6B) -->
+        <a id="keep-local-btn" href="../account-sync/AccountCloudBackup.html" class="w-full rounded-xl p-gutter-lg bg-liturgical-indigo text-on-liturgical-indigo flex flex-col gap-gutter-xs transition-opacity duration-state-change ease-state-change hover:opacity-95 active:opacity-90">
+          <div class="flex items-center justify-between gap-gutter-sm">
+            <span class="font-label text-label-lg" data-design-text-token="label-lg">Conserver une copie sur l&#39;appareil</span>
+            <span class="material-symbols-outlined text-[18px] shrink-0" aria-hidden="true">smartphone</span>
+          </div>
+          <p class="font-body text-body-sm text-on-liturgical-indigo/85 text-pretty" data-design-text-token="body-sm">
+            Vos confessions restent visibles dans le calendrier en mode local.
+          </p>
+        </a>
+
+        <!-- Option 2: Secondary Subtle Outline -->
+        <a id="clear-local-btn" href="../account-sync/AccountCloudBackup.html" class="w-full rounded-xl p-gutter-lg bg-light-surface dark:bg-dark-surface border border-light-outline dark:border-dark-outline text-light-on-surface dark:text-dark-on-surface flex flex-col gap-gutter-xs transition-colors duration-state-change ease-state-change hover:border-light-primary dark:hover:border-dark-primary">
+          <div class="flex items-center justify-between gap-gutter-sm">
+            <span class="font-label text-label-lg" data-design-text-token="label-lg">Vider le calendrier local</span>
+            <span class="material-symbols-outlined text-[18px] text-light-on-surface-variant dark:text-dark-on-surface-variant shrink-0" aria-hidden="true">restart_alt</span>
+          </div>
+          <p class="font-body text-body-sm text-light-on-surface-variant dark:text-dark-on-surface-variant text-pretty" data-design-text-token="body-sm">
+            Repartir d&#39;un calendrier vierge sur ce téléphone (vos données seront restaurées à la prochaine connexion).
+          </p>
+        </a>
+      </div>
+
+      <!-- Discreet Cancel Link -->
+      <a href="../account-sync/AccountCloudBackup.html" class="inline-flex items-center justify-center px-gutter-lg py-gutter-xs rounded-full text-light-on-surface-variant dark:text-dark-on-surface-variant font-label text-label-md transition-colors duration-state-change ease-state-change hover:text-light-on-surface dark:hover:text-dark-on-surface">
+        <span data-design-text-token="label-md">Annuler</span>
+      </a>
+    </section>
+
+  </div>
+
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem('renovo-theme') === 'dark') {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+
+      function signOutAndReturn() {
+        try {
+          localStorage.setItem('renovo-signed-in', 'false');
+        } catch (e) {}
+      }
+
+      document.getElementById('keep-local-btn').addEventListener('click', signOutAndReturn);
+      document.getElementById('clear-local-btn').addEventListener('click', signOutAndReturn);
+    })();
+  </script>
+
+
+</body></html>

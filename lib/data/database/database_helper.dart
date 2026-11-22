@@ -91,6 +91,19 @@ class DatabaseHelper {
     );
   }
 
+  /// Deletes all local confessions after a successful cloud migration.
+  Future<void> clearAllConfessions() async {
+    final db = await database;
+    await db.delete(tableConfessions);
+  }
+
+  /// Returns whether there are any guest-mode confessions to back up.
+  Future<bool> hasLocalConfessions() async {
+    final db = await database;
+    final results = await db.query(tableConfessions, columns: ['id'], limit: 1);
+    return results.isNotEmpty;
+  }
+
   /// Retrieves all confessions, ordered by date descending (most recent first).
   Future<List<Confession>> getAllConfessions() async {
     final db = await database;

@@ -1,0 +1,254 @@
+<!DOCTYPE html><html lang="fr"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Renovo — Personnaliser la carte</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'liturgical-indigo': '#2C3E6B',
+        'on-liturgical-indigo': '#FFFFFF',
+        'sage-emerald': '#2E7D5B',
+        'on-sage-emerald': '#FFFFFF',
+        'sage-tint': '#E8F3EE',
+        'on-sage-tint': '#003824',
+        'antique-gold': '#D49A3A',
+        'on-antique-gold': '#281800',
+        'gold-tint': '#FFEEDB',
+        'on-gold-tint': '#442C00',
+        'alabaster': '#FAF8F5',
+        'obsidian': '#121316',
+        'slate-charcoal': '#1C1E24',
+        'light-primary': '#2C3E6B',
+        'light-on-primary': '#FFFFFF',
+        'light-primary-container': '#DAE2FF',
+        'light-on-primary-container': '#021945',
+        'light-surface': '#FAF8F5',
+        'light-surface-container': '#FFFFFF',
+        'light-surface-container-low': '#F2F0ED',
+        'light-on-surface': '#1C1B18',
+        'light-on-surface-variant': '#5E5E5C',
+        'light-outline': '#EAE5DC',
+        'light-outline-variant': '#E4E2DF',
+        'dark-primary': '#B4C5FB',
+        'dark-on-primary': '#021945',
+        'dark-primary-container': '#1C2F5B',
+        'dark-on-primary-container': '#DAE2FF',
+        'dark-surface': '#121316',
+        'dark-surface-container': '#1C1E24',
+        'dark-surface-container-low': '#191B23',
+        'dark-on-surface': '#F3F1ED',
+        'dark-on-surface-variant': '#ACABA8',
+        'dark-outline': '#2A2D35',
+        'dark-outline-variant': '#2E3038',
+      },
+      borderRadius: {
+        'sm': '6px',
+        'DEFAULT': '12px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '20px',
+        '2xl': '24px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '12px',
+        'gutter-lg': '16px',
+        'gutter-xl': '20px',
+        'section': '24px',
+        'page-margin': '20px',
+      },
+      fontFamily: {
+        'display': ['"Lora"', 'sans-serif'],
+        'headline': ['"Lora"', 'sans-serif'],
+        'title': ['"Plus Jakarta Sans"', 'sans-serif'],
+        'body': ['"Plus Jakarta Sans"', 'sans-serif'],
+        'label': ['"Plus Jakarta Sans"', 'sans-serif'],
+      },
+      fontSize: {
+        'display-lg': ['40px', { lineHeight: '48px', letterSpacing: '-0.5px', fontWeight: '500' }],
+        'display-lg-mobile': ['32px', { lineHeight: '38px', letterSpacing: '-0.25px', fontWeight: '500' }],
+        'headline-lg': ['28px', { lineHeight: '34px', letterSpacing: '-0.25px', fontWeight: '600' }],
+        'headline-md': ['22px', { lineHeight: '28px', letterSpacing: '-0.15px', fontWeight: '600' }],
+        'title-lg': ['18px', { lineHeight: '24px', letterSpacing: '-0.1px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-md': ['14px', { lineHeight: '21px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-sm': ['13px', { lineHeight: '19px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['14px', { lineHeight: '20px', letterSpacing: '0.1px', fontWeight: '600' }],
+        'label-md': ['12px', { lineHeight: '16px', letterSpacing: '0.2px', fontWeight: '500' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.3px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '260ms',
+        'surface-exit': '180ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>
+    .material-symbols-outlined {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      line-height: 1 !important;
+      box-sizing: content-box;
+      overflow: hidden;
+      white-space: nowrap;
+      direction: ltr;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body class="bg-light-surface dark:bg-dark-surface text-light-on-surface dark:text-dark-on-surface font-body antialiased transition-colors duration-surface-enter ease-surface-enter">
+  <div class="min-h-[884px] w-full max-w-[390px] mx-auto relative flex flex-col justify-end overflow-hidden" data-stitch-vh="min-h-[884px]===min-h-screen">
+
+    <!-- Quiet Underlying Account & Bilan Context -->
+    <div aria-hidden="true" class="px-page-margin pt-gutter-lg flex flex-col gap-gutter-lg pointer-events-none select-none">
+      <div class="flex items-center justify-between pt-gutter-xs">
+        <div class="flex items-center gap-gutter-sm">
+          <span class="w-9 h-9 rounded-full bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline"></span>
+          <span class="w-36 h-6 rounded-md bg-light-surface-container-low dark:bg-dark-surface-container-low"></span>
+        </div>
+        <span class="w-9 h-9 rounded-full bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline"></span>
+      </div>
+      <div class="bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline rounded-xl p-gutter-xl h-48 flex flex-col gap-gutter-md">
+        <span class="w-32 h-6 rounded-md bg-light-surface-container-low dark:bg-dark-surface-container-low"></span>
+        <span class="w-full h-24 rounded-md bg-light-surface-container-low dark:bg-dark-surface-container-low"></span>
+      </div>
+    </div>
+
+    <!-- Scrim Overlay -->
+    <div class="fixed inset-0 max-w-[390px] mx-auto bg-obsidian/35 z-10 pointer-events-none"></div>
+
+    <!-- Bottom Sheet Modal (24px top corners, Alabaster / Obsidian ground) -->
+    <section role="dialog" aria-modal="true" aria-labelledby="customize-title" class="relative z-20 w-full bg-light-surface dark:bg-dark-surface border-t border-x border-light-outline dark:border-dark-outline rounded-t-2xl px-page-margin pt-gutter-md pb-section shadow-xl flex flex-col gap-gutter-lg">
+      <!-- Drag Handle -->
+      <div class="flex justify-center w-full">
+        <span class="w-10 h-1 rounded-full bg-light-outline dark:bg-dark-outline" aria-hidden="true"></span>
+      </div>
+
+      <!-- Header -->
+      <header class="flex items-center justify-between">
+        <h1 id="customize-title" class="font-headline text-headline-md text-light-on-surface dark:text-dark-on-surface" data-design-text-token="headline-md">
+          Personnaliser la carte
+        </h1>
+        <a href="../account-sync/AccountCloudBackup.html" aria-label="Fermer" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline text-light-on-surface-variant dark:text-dark-on-surface-variant hover:text-light-on-surface dark:hover:text-dark-on-surface transition-colors duration-state-change ease-state-change">
+          <span class="material-symbols-outlined text-[18px]" aria-hidden="true">close</span>
+        </a>
+      </header>
+
+      <!-- Discreet Visual Reminder Row (Gold-ringed Avatar + Selected Year) -->
+      <div class="flex items-center gap-gutter-md px-gutter-md py-gutter-sm rounded-md bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline">
+        <div class="w-10 h-10 rounded-full ring-2 ring-antique-gold bg-liturgical-indigo flex items-center justify-center font-headline text-label-md text-alabaster shrink-0">
+          <span data-design-text-token="label-md">CJ</span>
+        </div>
+        <div class="flex flex-col min-w-0">
+          <span class="font-title text-body-md font-semibold text-light-on-surface dark:text-dark-on-surface" data-design-text-token="body-md">Bilan annuel 2026</span>
+          <span id="preview-caption" class="font-body text-body-sm text-light-on-surface-variant dark:text-dark-on-surface-variant truncate" data-design-text-token="body-sm">Parcours spirituel • Renovo</span>
+        </div>
+      </div>
+
+      <!-- Form Controls -->
+      <form id="customize-form" class="flex flex-col gap-gutter-lg" action="../../html/BilanSpirituelAnnuelCard.html" method="get">
+
+        <!-- Pseudo Text Field -->
+        <label data-component-id="input-field-icon" data-component-type="input-field" data-component-variant="with-icon" class="w-full flex flex-col gap-gutter-xs">
+          <span data-design-text-token="label-md" class="font-label text-label-md text-light-on-surface-variant dark:text-dark-on-surface-variant">
+            Pseudo affiché sur la carte
+          </span>
+          <div class="relative flex items-center">
+            <span aria-hidden="true" class="material-symbols-outlined text-[18px] text-light-on-surface-variant dark:text-dark-on-surface-variant absolute left-gutter-md pointer-events-none">badge</span>
+            <input id="pseudo-input" type="text" value="Crépin Junior" placeholder="Surnom ou devise personnelle" class="w-full pl-10 pr-gutter-lg py-gutter-md rounded-md bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline text-light-on-surface dark:text-dark-on-surface placeholder:text-light-on-surface-variant dark:placeholder:text-dark-on-surface-variant font-body text-body-md focus:border-light-primary dark:focus:border-dark-primary focus:ring-0">
+          </div>
+        </label>
+
+        <!-- Privacy Toggle Row (OFF by default) -->
+        <div class="flex items-center justify-between gap-gutter-md px-gutter-md py-gutter-md rounded-md bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline">
+          <div class="flex flex-col gap-0.5 min-w-0">
+            <span class="font-label text-label-lg text-light-on-surface dark:text-dark-on-surface" data-design-text-token="label-lg">
+              Afficher mon adresse e-mail
+            </span>
+            <span class="font-body text-body-sm text-light-on-surface-variant dark:text-dark-on-surface-variant text-pretty" data-design-text-token="body-sm">
+              Masquée par défaut pour préserver votre confidentialité
+            </span>
+          </div>
+          <button id="email-switch" type="button" role="switch" aria-checked="false" aria-label="Afficher mon adresse e-mail" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-light-outline dark:bg-dark-outline transition-colors duration-state-change ease-state-change focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-light-primary dark:focus-visible:outline-dark-primary">
+            <span id="email-switch-thumb" aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-light-surface-container dark:bg-dark-surface-container shadow-sm transition-transform duration-state-change ease-state-change translate-x-0"></span>
+          </button>
+        </div>
+
+        <!-- Primary Action Button -->
+        <button id="generate-share-btn" data-component-id="button-primary" data-component-type="button" data-component-variant="primary" type="submit" class="w-full inline-flex items-center justify-center gap-gutter-sm px-gutter-xl py-gutter-md rounded-md bg-liturgical-indigo text-on-liturgical-indigo font-label text-label-lg transition-opacity duration-state-change ease-state-change hover:opacity-90 active:opacity-80">
+          <span class="material-symbols-outlined text-[18px]" aria-hidden="true">share</span>
+          <span data-design-text-token="label-lg">Générer et partager</span>
+        </button>
+
+      </form>
+    </section>
+
+  </div>
+
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem('renovo-theme') === 'dark') {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+
+      const switchBtn = document.getElementById('email-switch');
+      const switchThumb = document.getElementById('email-switch-thumb');
+      const previewCaption = document.getElementById('preview-caption');
+      const pseudoInput = document.getElementById('pseudo-input');
+      let showEmail = false;
+
+      switchBtn.addEventListener('click', function () {
+        showEmail = !showEmail;
+        switchBtn.setAttribute('aria-checked', showEmail ? 'true' : 'false');
+        if (showEmail) {
+          switchBtn.classList.remove('bg-light-outline', 'dark:bg-dark-outline');
+          switchBtn.classList.add('bg-liturgical-indigo');
+          switchThumb.classList.remove('translate-x-0');
+          switchThumb.classList.add('translate-x-5');
+          previewCaption.textContent = 'crepin.houessou@gmail.com';
+        } else {
+          switchBtn.classList.remove('bg-liturgical-indigo');
+          switchBtn.classList.add('bg-light-outline', 'dark:bg-dark-outline');
+          switchThumb.classList.remove('translate-x-5');
+          switchThumb.classList.add('translate-x-0');
+          previewCaption.textContent = 'Parcours spirituel • Renovo';
+        }
+      });
+
+      document.getElementById('customize-form').addEventListener('submit', function () {
+        try {
+          localStorage.setItem('renovo-card-pseudo', pseudoInput.value.trim() || 'Crépin Junior');
+          localStorage.setItem('renovo-card-show-email', showEmail ? 'true' : 'false');
+        } catch (e) {}
+      });
+    })();
+  </script>
+
+
+</body></html>

@@ -3,6 +3,7 @@ import '../../core/utils/date_utils.dart';
 /// Data model representing an effective confession event.
 class Confession {
   final int? id;
+  final String? remoteId;
   final DateTime date;
   final String parish;
   final String? notes;
@@ -10,6 +11,7 @@ class Confession {
 
   Confession({
     this.id,
+    this.remoteId,
     required this.date,
     required this.parish,
     this.notes,
@@ -19,8 +21,12 @@ class Confession {
   /// Normalized date without time components.
   DateTime get normalizedDate => RenovoDateUtils.normalizeDate(date);
 
+  /// Confession records represent completed events; predictions are derived separately.
+  bool get isCompleted => true;
+
   Confession copyWith({
     int? id,
+    String? remoteId,
     DateTime? date,
     String? parish,
     String? notes,
@@ -28,6 +34,7 @@ class Confession {
   }) {
     return Confession(
       id: id ?? this.id,
+      remoteId: remoteId ?? this.remoteId,
       date: date ?? this.date,
       parish: parish ?? this.parish,
       notes: notes ?? this.notes,

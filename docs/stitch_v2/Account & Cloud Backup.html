@@ -1,0 +1,548 @@
+<!DOCTYPE html><html lang="fr"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Renovo — Compte &amp; Sauvegarde</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'liturgical-indigo': '#2C3E6B',
+        'on-liturgical-indigo': '#FFFFFF',
+        'sage-emerald': '#2E7D5B',
+        'on-sage-emerald': '#FFFFFF',
+        'sage-tint': '#E8F3EE',
+        'on-sage-tint': '#003824',
+        'antique-gold': '#D49A3A',
+        'on-antique-gold': '#281800',
+        'gold-tint': '#FFEEDB',
+        'on-gold-tint': '#442C00',
+        'alabaster': '#FAF8F5',
+        'obsidian': '#121316',
+        'slate-charcoal': '#1C1E24',
+        'light-primary': '#2C3E6B',
+        'light-on-primary': '#FFFFFF',
+        'light-primary-container': '#DAE2FF',
+        'light-on-primary-container': '#021945',
+        'light-surface': '#FAF8F5',
+        'light-surface-container': '#FFFFFF',
+        'light-surface-container-low': '#F2F0ED',
+        'light-on-surface': '#1C1B18',
+        'light-on-surface-variant': '#5E5E5C',
+        'light-outline': '#EAE5DC',
+        'light-outline-variant': '#E4E2DF',
+        'dark-primary': '#B4C5FB',
+        'dark-on-primary': '#021945',
+        'dark-primary-container': '#1C2F5B',
+        'dark-on-primary-container': '#DAE2FF',
+        'dark-surface': '#121316',
+        'dark-surface-container': '#1C1E24',
+        'dark-surface-container-low': '#191B23',
+        'dark-on-surface': '#F3F1ED',
+        'dark-on-surface-variant': '#ACABA8',
+        'dark-outline': '#2A2D35',
+        'dark-outline-variant': '#2E3038',
+      },
+      borderRadius: {
+        'sm': '6px',
+        'DEFAULT': '12px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '20px',
+        '2xl': '24px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '12px',
+        'gutter-lg': '16px',
+        'gutter-xl': '20px',
+        'section': '24px',
+        'page-margin': '20px',
+      },
+      fontFamily: {
+        'display': ['"Lora"', 'sans-serif'],
+        'headline': ['"Lora"', 'sans-serif'],
+        'title': ['"Plus Jakarta Sans"', 'sans-serif'],
+        'body': ['"Plus Jakarta Sans"', 'sans-serif'],
+        'label': ['"Plus Jakarta Sans"', 'sans-serif'],
+      },
+      fontSize: {
+        'display-lg': ['40px', { lineHeight: '48px', letterSpacing: '-0.5px', fontWeight: '500' }],
+        'display-lg-mobile': ['32px', { lineHeight: '38px', letterSpacing: '-0.25px', fontWeight: '500' }],
+        'headline-lg': ['28px', { lineHeight: '34px', letterSpacing: '-0.25px', fontWeight: '600' }],
+        'headline-md': ['22px', { lineHeight: '28px', letterSpacing: '-0.15px', fontWeight: '600' }],
+        'title-lg': ['18px', { lineHeight: '24px', letterSpacing: '-0.1px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-md': ['14px', { lineHeight: '21px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-sm': ['13px', { lineHeight: '19px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['14px', { lineHeight: '20px', letterSpacing: '0.1px', fontWeight: '600' }],
+        'label-md': ['12px', { lineHeight: '16px', letterSpacing: '0.2px', fontWeight: '500' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.3px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '260ms',
+        'surface-exit': '180ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>
+    .material-symbols-outlined {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      line-height: 1 !important;
+      box-sizing: content-box;
+      overflow: hidden;
+      white-space: nowrap;
+      direction: ltr;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body class="bg-light-surface dark:bg-dark-surface text-light-on-surface dark:text-dark-on-surface font-body antialiased transition-colors duration-surface-enter ease-surface-enter">
+  <div class="min-h-[884px] w-full max-w-[390px] mx-auto flex flex-col justify-between px-page-margin pt-gutter-lg pb-section gap-gutter-xl" data-stitch-vh="min-h-[884px]===min-h-screen">
+
+    <!-- Contextual Header -->
+    <div class="flex flex-col gap-gutter-lg">
+      <header class="flex items-center justify-between pt-gutter-xs">
+        <div class="flex items-center gap-gutter-sm">
+          <a href="../home/AccueilCalendrier.html" aria-label="Retour au calendrier" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline text-light-on-surface dark:text-dark-on-surface transition-colors duration-state-change ease-state-change hover:bg-light-surface-container-low dark:hover:bg-dark-surface-container-low">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">arrow_back</span>
+          </a>
+          <h1 class="font-headline text-headline-md text-light-on-surface dark:text-dark-on-surface" data-design-text-token="headline-md">
+            Compte &amp; Sauvegarde
+          </h1>
+        </div>
+        <button id="theme-toggle" data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" aria-label="Changer le thème" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline text-light-on-surface dark:text-dark-on-surface transition-colors duration-state-change ease-state-change hover:bg-light-surface-container-low dark:hover:bg-dark-surface-container-low">
+          <span id="theme-icon" class="material-symbols-outlined text-[18px]" aria-hidden="true">dark_mode</span>
+        </button>
+      </header>
+
+      <!-- Subtle State Preview Switcher (Signed-Out / Signed-In) -->
+      <div class="flex items-center justify-center">
+        <div class="inline-grid grid-cols-2 p-gutter-xs rounded-full bg-light-surface-container-low dark:bg-dark-surface-container-low border border-light-outline dark:border-dark-outline" role="tablist" aria-label="État du compte">
+          <button id="tab-signed-out" type="button" role="tab" aria-selected="true" class="px-gutter-md py-gutter-xs rounded-full bg-light-surface-container dark:bg-dark-surface-container text-light-on-surface dark:text-dark-on-surface font-label text-label-md shadow-sm transition-colors duration-state-change ease-state-change">
+            <span data-design-text-token="label-md">Local (Invité)</span>
+          </button>
+          <button id="tab-signed-in" type="button" role="tab" aria-selected="false" class="px-gutter-md py-gutter-xs rounded-full text-light-on-surface-variant dark:text-dark-on-surface-variant font-label text-label-md transition-colors duration-state-change ease-state-change">
+            <span data-design-text-token="label-md">Synchro Google</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <main class="flex flex-col gap-gutter-lg">
+
+        <!-- SIGNED-OUT STATE -->
+        <section id="panel-signed-out" class="flex flex-col gap-gutter-lg">
+          <article data-component-id="card-action" data-component-type="card" data-component-variant="action" class="w-full bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline rounded-xl p-gutter-xl shadow-sm flex flex-col gap-gutter-lg">
+            <header class="flex flex-col items-start gap-gutter-md">
+              <div class="w-11 h-11 rounded-full bg-light-surface-container-low dark:bg-dark-surface-container-low border border-light-outline dark:border-dark-outline flex items-center justify-center text-light-on-surface-variant dark:text-dark-on-surface-variant">
+                <span class="material-symbols-outlined text-[22px]" aria-hidden="true">cloud_off</span>
+              </div>
+              <div class="flex flex-col gap-gutter-xs">
+                <h2 class="font-headline text-headline-md text-light-on-surface dark:text-dark-on-surface" data-design-text-token="headline-md">
+                  Stockage local
+                </h2>
+                <p class="font-body text-body-md text-light-on-surface-variant dark:text-dark-on-surface-variant text-pretty" data-design-text-token="body-md">
+                  Vos dates de confession et notes spirituelles sont enregistrées uniquement sur ce téléphone. Connectez-vous pour sauvegarder et restaurer vos données en toute confidentialité.
+                </p>
+              </div>
+            </header>
+
+            <footer>
+              <button id="google-signin-btn" type="button" class="w-full inline-flex items-center justify-center gap-gutter-sm px-gutter-xl py-gutter-md rounded-md bg-light-surface-container border border-light-outline text-liturgical-indigo font-label text-label-lg shadow-sm transition-colors duration-state-change ease-state-change hover:bg-light-surface-container-low active:opacity-80">
+                <!-- Official Google 'G' Icon -->
+                <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17Z"></path>
+                  <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.96H1.29v3.14C3.26 21.3 7.31 24 12 24Z"></path>
+                  <path fill="#FBBC05" d="M5.28 14.24c-.24-.72-.38-1.49-.38-2.24s.14-1.52.38-2.24V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.99-3.14Z"></path>
+                  <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.99 3.14c.95-2.85 3.6-4.96 6.72-4.96Z"></path>
+                </svg>
+                <span data-design-text-token="label-lg">Continuer avec Google</span>
+              </button>
+            </footer>
+          </article>
+        </section>
+
+        <!-- SIGNED-IN STATE -->
+        <section id="panel-signed-in" class="hidden flex flex-col gap-gutter-lg">
+          <article data-component-id="card-elevated" data-component-type="card" data-component-variant="elevated" class="w-full bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline rounded-xl p-gutter-xl shadow-sm flex flex-col gap-gutter-lg">
+            <!-- Profile Header -->
+            <div class="flex items-center gap-gutter-lg">
+              <div class="relative shrink-0">
+                <div class="w-14 h-14 rounded-full bg-light-primary-container dark:bg-dark-primary-container border border-light-outline dark:border-dark-outline flex items-center justify-center font-headline text-headline-md text-light-on-primary-container dark:text-dark-on-primary-container">
+                  <span data-design-text-token="headline-md">CM</span>
+                </div>
+                <span class="absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full bg-sage-emerald text-on-sage-emerald flex items-center justify-center border-2 border-light-surface-container dark:border-dark-surface-container">
+                  <span class="material-symbols-outlined text-[12px]" aria-hidden="true">check</span>
+                </span>
+              </div>
+
+              <div class="flex flex-col gap-gutter-xs min-w-0">
+                <h2 class="font-headline font-bold text-title-lg text-light-on-surface dark:text-dark-on-surface" data-design-text-token="title-lg">
+                  Claire Moreau
+                </h2>
+                <p class="font-body text-body-sm text-light-on-surface-variant dark:text-dark-on-surface-variant truncate" data-design-text-token="body-sm">
+                  claire.moreau@gmail.com
+                </p>
+              </div>
+            </div>
+
+            <!-- Emerald Status Pill -->
+            <div>
+              <span data-component-id="chip-status-sage" data-component-type="chip" data-component-variant="assist" class="inline-flex items-center gap-gutter-xs px-gutter-md py-gutter-xs rounded-full bg-sage-tint text-on-sage-tint font-label text-label-md">
+                <span class="w-2 h-2 rounded-full bg-sage-emerald" aria-hidden="true"></span>
+                <span data-design-text-token="label-md">Synchro cloud active</span>
+              </span>
+            </div>
+
+            <!-- Sync Now Action Row -->
+            <div class="pt-gutter-md border-t border-light-outline dark:border-dark-outline flex items-center justify-between">
+              <div class="flex flex-col">
+                <span class="font-title text-title-md text-light-on-surface dark:text-dark-on-surface" data-design-text-token="title-md">Synchroniser maintenant</span>
+                <span id="last-synced-text" class="font-body text-body-sm text-light-on-surface-variant dark:text-dark-on-surface-variant" data-design-text-token="body-sm">Dernière synchro à l&#39;instant</span>
+              </div>
+              <button id="sync-now-btn" type="button" aria-label="Synchroniser maintenant" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-light-surface-container-low dark:bg-dark-surface-container-low border border-light-outline dark:border-dark-outline text-light-primary dark:text-dark-primary transition-colors duration-state-change ease-state-change hover:border-light-primary dark:hover:border-dark-primary">
+                <span class="material-symbols-outlined text-[20px]" aria-hidden="true">sync</span>
+              </button>
+            </div>
+          </article>
+        </section>
+
+        <!-- SECTION BILAN & EXPORT ANNUEL -->
+        <section aria-labelledby="bilan-title" class="flex flex-col gap-gutter-md">
+          <article data-component-id="card-action" data-component-type="card" data-component-variant="action" class="w-full bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline rounded-xl p-gutter-xl shadow-sm flex flex-col gap-gutter-lg">
+            <!-- Header & Summary Counter -->
+            <header class="flex flex-col items-start gap-gutter-sm">
+              <div class="w-full flex items-center justify-between gap-gutter-sm">
+                <h2 id="bilan-title" class="font-headline text-headline-md text-light-on-surface dark:text-dark-on-surface" data-design-text-token="headline-md">
+                  Bilan annuel
+                </h2>
+                <!-- Discreet Year Selector Pill -->
+                <div class="inline-flex items-center gap-gutter-xs px-gutter-xs py-gutter-xs rounded-full bg-light-surface dark:bg-dark-surface border border-light-outline dark:border-dark-outline">
+                  <button id="year-prev-btn" type="button" aria-label="Année précédente" class="inline-flex items-center justify-center w-6 h-6 rounded-full text-light-on-surface dark:text-dark-on-surface hover:bg-light-surface-container-low dark:hover:bg-dark-surface-container-low transition-colors duration-state-change ease-state-change">
+                    <span class="material-symbols-outlined text-[16px]" aria-hidden="true">chevron_left</span>
+                  </button>
+                  <span id="selected-year-label" class="font-label text-label-md text-light-on-surface dark:text-dark-on-surface tabular-nums px-gutter-xs" data-design-text-token="label-md">2026</span>
+                  <button id="year-next-btn" type="button" disabled aria-label="Année suivante" class="inline-flex items-center justify-center w-6 h-6 rounded-full text-light-on-surface-variant dark:text-dark-on-surface-variant opacity-35 cursor-not-allowed transition-colors duration-state-change ease-state-change">
+                    <span class="material-symbols-outlined text-[16px]" aria-hidden="true">chevron_right</span>
+                  </button>
+                </div>
+              </div>
+              <span data-component-id="chip-status-sage" data-component-type="chip" data-component-variant="assist" class="inline-flex items-center gap-gutter-xs px-gutter-md py-gutter-xs rounded-full bg-sage-tint text-on-sage-tint font-label text-label-md tabular-nums">
+                <span class="w-2 h-2 rounded-full bg-sage-emerald" aria-hidden="true"></span>
+                <span id="bilan-summary-text" data-design-text-token="label-md">14 confessions effectuées en 2026</span>
+              </span>
+            </header>
+
+            <!-- 12-Month Visual Contribution Mosaic -->
+            <div class="rounded-lg bg-light-surface dark:bg-dark-surface border border-light-outline dark:border-dark-outline p-gutter-md flex flex-col gap-gutter-sm">
+              <div id="bilan-mosaic-grid" class="grid grid-cols-4 gap-gutter-sm">
+                <!-- Janvier (1) -->
+                <div class="flex flex-col items-center gap-gutter-xs py-gutter-xs">
+                  <span class="font-label text-label-sm text-light-on-surface-variant dark:text-dark-on-surface-variant" data-design-text-token="label-sm">Janv.</span>
+                  <div class="flex items-center gap-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-sage-emerald" title="1 confession"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-light-outline dark:bg-dark-outline"></span>
+                  </div>
+                </div>
+                <!-- Février (1) -->
+                <div class="flex flex-col items-center gap-gutter-xs py-gutter-xs">
+                  <span class="font-label text-label-sm text-light-on-surface-variant dark:text-dark-on-surface-variant" data-design-text-token="label-sm">Févr.</span>
+                  <div class="flex items-center gap-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-sage-emerald"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-light-outline dark:bg-dark-outline"></span>
+                  </div>
+                </div>
+                <!-- Mars (2) -->
+                <div class="flex flex-col items-center gap-gutter-xs py-gutter-xs">
+                  <span class="font-label text-label-sm text-light-on-surface-variant dark:text-dark-on-surface-variant" data-design-text-token="label-sm">Mars</span>
+                  <div class="flex items-center gap-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-sage-emerald"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-sage-emerald"></span>
+                  </div>
+                </div>
+                <!-- Avril (1) -->
+                <div class="flex flex-col items-center gap-gutter-xs py-gutter-xs">
+                  <span class="font-label text-label-sm text-light-on-surface-variant dark:text-dark-on-surface-variant" data-design-text-token="label-sm">Avr.</span>
+                  <div class="flex items-center gap-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-sage-emerald"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-light-outline dark:bg-dark-outline"></span>
+                  </div>
+                </div>
+                <!-- Mai (1) -->
+                <div class="flex flex-col items-center gap-gutter-xs py-gutter-xs">
+                  <span class="font-label text-label-sm text-light-on-surface-variant dark:text-dark-on-surface-variant" data-design-text-token="label-sm">Mai</span>
+                  <div class="flex items-center gap-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-sage-emerald"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-light-outline dark:bg-dark-outline"></span>
+                  </div>
+                </div>
+                <!-- Juin (2) -->
+                <div class="flex flex-col items-center gap-gutter-xs py-gutter-xs">
+                  <span class="font-label text-label-sm text-light-on-surface-variant dark:text-dark-on-surface-variant" data-design-text-token="label-sm">Juin</span>
+                  <div class="flex items-center gap-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-sage-emerald"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-sage-emerald"></span>
+                  </div>
+                </div>
+                <!-- Juillet (1) -->
+                <div class="flex flex-col items-center gap-gutter-xs py-gutter-xs">
+                  <span class="font-label text-label-sm text-light-on-surface-variant dark:text-dark-on-surface-variant" data-design-text-token="label-sm">Juil.</span>
+                  <div class="flex items-center gap-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-sage-emerald"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-light-outline dark:bg-dark-outline"></span>
+                  </div>
+                </div>
+                <!-- Août (1) -->
+                <div class="flex flex-col items-center gap-gutter-xs py-gutter-xs">
+                  <span class="font-label text-label-sm text-light-on-surface-variant dark:text-dark-on-surface-variant" data-design-text-token="label-sm">Août</span>
+                  <div class="flex items-center gap-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-sage-emerald"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-light-outline dark:bg-dark-outline"></span>
+                  </div>
+                </div>
+                <!-- Septembre (1) -->
+                <div class="flex flex-col items-center gap-gutter-xs py-gutter-xs">
+                  <span class="font-label text-label-sm text-light-on-surface-variant dark:text-dark-on-surface-variant" data-design-text-token="label-sm">Sept.</span>
+                  <div class="flex items-center gap-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-sage-emerald"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-light-outline dark:bg-dark-outline"></span>
+                  </div>
+                </div>
+                <!-- Octobre (1) -->
+                <div class="flex flex-col items-center gap-gutter-xs py-gutter-xs">
+                  <span class="font-label text-label-sm text-light-on-surface-variant dark:text-dark-on-surface-variant" data-design-text-token="label-sm">Oct.</span>
+                  <div class="flex items-center gap-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-sage-emerald"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-light-outline dark:bg-dark-outline"></span>
+                  </div>
+                </div>
+                <!-- Novembre (2) -->
+                <div class="flex flex-col items-center gap-gutter-xs py-gutter-xs">
+                  <span class="font-label text-label-sm text-light-on-surface-variant dark:text-dark-on-surface-variant" data-design-text-token="label-sm">Nov.</span>
+                  <div class="flex items-center gap-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-sage-emerald"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-sage-emerald"></span>
+                  </div>
+                </div>
+                <!-- Décembre (0, à venir) -->
+                <div class="flex flex-col items-center gap-gutter-xs py-gutter-xs">
+                  <span class="font-label text-label-sm text-light-on-surface-variant dark:text-dark-on-surface-variant" data-design-text-token="label-sm">Déc.</span>
+                  <div class="flex items-center gap-1">
+                    <span class="w-2.5 h-2.5 rounded-full ring-1 ring-antique-gold bg-transparent"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-light-outline dark:bg-dark-outline"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Two Side-by-Side Export Action Buttons -->
+            <footer class="grid grid-cols-2 gap-gutter-sm">
+              <button id="export-image-btn" type="button" class="h-11 w-full inline-flex items-center justify-center gap-gutter-xs px-gutter-sm rounded-md border border-liturgical-indigo bg-liturgical-indigo text-on-liturgical-indigo font-label text-label-sm leading-none whitespace-nowrap transition-opacity duration-state-change ease-state-change hover:opacity-90 active:opacity-80">
+                <span class="material-symbols-outlined text-[16px] shrink-0" aria-hidden="true">image</span>
+                <span data-design-text-token="label-sm">Exporter en image</span>
+              </button>
+              <button id="export-csv-btn" type="button" class="h-11 w-full inline-flex items-center justify-center gap-gutter-xs px-gutter-sm rounded-md border border-light-outline dark:border-dark-outline bg-light-surface dark:bg-dark-surface text-liturgical-indigo dark:text-dark-primary font-label text-label-sm leading-none whitespace-nowrap transition-colors duration-state-change ease-state-change hover:border-light-primary dark:hover:border-dark-primary">
+                <span class="material-symbols-outlined text-[16px] shrink-0" aria-hidden="true">table_view</span>
+                <span data-design-text-token="label-sm">Exporter en CSV</span>
+              </button>
+            </footer>
+            <p id="export-feedback" class="hidden font-body text-body-sm text-sage-emerald text-center" data-design-text-token="body-sm"></p>
+          </article>
+        </section>
+
+      </main>
+    </div>
+
+    <!-- Discreet Sign Out Button at Bottom (visible when Signed In) -->
+    <footer id="signed-in-footer" class="hidden flex items-center justify-center pt-gutter-lg">
+      <a id="sign-out-btn" href="../signout-modal/SignOutConfirmation.html" class="inline-flex items-center justify-center gap-gutter-xs px-gutter-lg py-gutter-sm rounded-full text-light-on-surface-variant dark:text-dark-on-surface-variant font-label text-label-md transition-colors duration-state-change ease-state-change hover:text-light-on-surface dark:hover:text-dark-on-surface">
+        <span class="material-symbols-outlined text-[16px]" aria-hidden="true">logout</span>
+        <span data-design-text-token="label-md">Se déconnecter</span>
+      </a>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const toggle = document.getElementById('theme-toggle');
+      const icon = document.getElementById('theme-icon');
+
+      function applyTheme(isDark) {
+        if (isDark) {
+          root.classList.add('dark');
+          icon.textContent = 'light_mode';
+        } else {
+          root.classList.remove('dark');
+          icon.textContent = 'dark_mode';
+        }
+        try {
+          localStorage.setItem('renovo-theme', isDark ? 'dark' : 'light');
+        } catch (e) {}
+      }
+
+      try {
+        if (localStorage.getItem('renovo-theme') === 'dark') applyTheme(true);
+      } catch (e) {}
+
+      toggle.addEventListener('click', function () {
+        applyTheme(!root.classList.contains('dark'));
+      });
+
+      const tabOut = document.getElementById('tab-signed-out');
+      const tabIn = document.getElementById('tab-signed-in');
+      const panelOut = document.getElementById('panel-signed-out');
+      const panelIn = document.getElementById('panel-signed-in');
+      const footerIn = document.getElementById('signed-in-footer');
+
+      const activeTabCls = 'px-gutter-md py-gutter-xs rounded-full bg-light-surface-container dark:bg-dark-surface-container text-light-on-surface dark:text-dark-on-surface font-label text-label-md shadow-sm transition-colors duration-state-change ease-state-change';
+      const inactiveTabCls = 'px-gutter-md py-gutter-xs rounded-full text-light-on-surface-variant dark:text-dark-on-surface-variant font-label text-label-md transition-colors duration-state-change ease-state-change';
+
+      function setSignedIn(signedIn) {
+        try {
+          localStorage.setItem('renovo-signed-in', signedIn ? 'true' : 'false');
+        } catch (e) {}
+        if (signedIn) {
+          panelOut.classList.add('hidden');
+          panelIn.classList.remove('hidden');
+          footerIn.classList.remove('hidden');
+          tabIn.className = activeTabCls;
+          tabOut.className = inactiveTabCls;
+          tabIn.setAttribute('aria-selected', 'true');
+          tabOut.setAttribute('aria-selected', 'false');
+        } else {
+          panelIn.classList.add('hidden');
+          footerIn.classList.add('hidden');
+          panelOut.classList.remove('hidden');
+          tabOut.className = activeTabCls;
+          tabIn.className = inactiveTabCls;
+          tabOut.setAttribute('aria-selected', 'true');
+          tabIn.setAttribute('aria-selected', 'false');
+        }
+      }
+
+      tabOut.addEventListener('click', function () { setSignedIn(false); });
+      tabIn.addEventListener('click', function () { setSignedIn(true); });
+      document.getElementById('google-signin-btn').addEventListener('click', function () { setSignedIn(true); });
+
+      document.getElementById('sync-now-btn').addEventListener('click', function () {
+        document.getElementById('last-synced-text').textContent = 'Synchronisé · 00:32';
+      });
+
+      const CURRENT_YEAR = 2026;
+      const MIN_YEAR = 2024;
+      const YEAR_DATA = {
+        2026: { total: 14, counts: [1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 2, 0], predictedLast: true },
+        2025: { total: 16, counts: [1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1], predictedLast: false },
+        2024: { total: 12, counts: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], predictedLast: false }
+      };
+      const MONTHS_SHORT = ['Janv.', 'Févr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'];
+      let selectedYear = 2026;
+
+      const yearLabel = document.getElementById('selected-year-label');
+      const yearPrevBtn = document.getElementById('year-prev-btn');
+      const yearNextBtn = document.getElementById('year-next-btn');
+      const summaryText = document.getElementById('bilan-summary-text');
+      const mosaicGrid = document.getElementById('bilan-mosaic-grid');
+      const exportFeedback = document.getElementById('export-feedback');
+
+      function renderBilan() {
+        const data = YEAR_DATA[selectedYear];
+        yearLabel.textContent = String(selectedYear);
+        summaryText.textContent = data.total + ' confessions effectuées en ' + selectedYear;
+
+        const isCurrentYear = selectedYear >= CURRENT_YEAR;
+        yearNextBtn.disabled = isCurrentYear;
+        yearNextBtn.className = isCurrentYear
+          ? 'inline-flex items-center justify-center w-6 h-6 rounded-full text-light-on-surface-variant dark:text-dark-on-surface-variant opacity-35 cursor-not-allowed transition-colors duration-state-change ease-state-change'
+          : 'inline-flex items-center justify-center w-6 h-6 rounded-full text-light-on-surface dark:text-dark-on-surface hover:bg-light-surface-container-low dark:hover:bg-dark-surface-container-low transition-colors duration-state-change ease-state-change';
+
+        const isMinYear = selectedYear <= MIN_YEAR;
+        yearPrevBtn.disabled = isMinYear;
+        yearPrevBtn.className = isMinYear
+          ? 'inline-flex items-center justify-center w-6 h-6 rounded-full text-light-on-surface-variant dark:text-dark-on-surface-variant opacity-35 cursor-not-allowed transition-colors duration-state-change ease-state-change'
+          : 'inline-flex items-center justify-center w-6 h-6 rounded-full text-light-on-surface dark:text-dark-on-surface hover:bg-light-surface-container-low dark:hover:bg-dark-surface-container-low transition-colors duration-state-change ease-state-change';
+
+        mosaicGrid.innerHTML = '';
+        data.counts.forEach(function (count, idx) {
+          const cell = document.createElement('div');
+          cell.className = 'flex flex-col items-center gap-gutter-xs py-gutter-xs';
+
+          const lbl = document.createElement('span');
+          lbl.className = 'font-label text-label-sm text-light-on-surface-variant dark:text-dark-on-surface-variant';
+          lbl.setAttribute('data-design-text-token', 'label-sm');
+          lbl.textContent = MONTHS_SHORT[idx];
+          cell.appendChild(lbl);
+
+          const dots = document.createElement('div');
+          dots.className = 'flex items-center gap-1';
+          for (let d = 0; d < 2; d++) {
+            const dot = document.createElement('span');
+            if (d < count) {
+              dot.className = 'w-2.5 h-2.5 rounded-full bg-sage-emerald';
+            } else if (data.predictedLast && idx === 11 && d === 0) {
+              dot.className = 'w-2.5 h-2.5 rounded-full ring-1 ring-antique-gold bg-transparent';
+            } else {
+              dot.className = 'w-2.5 h-2.5 rounded-full bg-light-outline dark:bg-dark-outline';
+            }
+            dots.appendChild(dot);
+          }
+          cell.appendChild(dots);
+          mosaicGrid.appendChild(cell);
+        });
+
+        exportFeedback.classList.add('hidden');
+      }
+
+      yearPrevBtn.addEventListener('click', function () {
+        if (selectedYear > MIN_YEAR) {
+          selectedYear--;
+          renderBilan();
+        }
+      });
+
+      yearNextBtn.addEventListener('click', function () {
+        if (selectedYear < CURRENT_YEAR) {
+          selectedYear++;
+          renderBilan();
+        }
+      });
+
+      document.getElementById('export-image-btn').addEventListener('click', function () {
+        window.location.href = '../customize-card/PersonnaliserCarte.html';
+      });
+      document.getElementById('export-csv-btn').addEventListener('click', function () {
+        exportFeedback.textContent = 'Historique ' + selectedYear + ' préparé au format CSV.';
+        exportFeedback.classList.remove('hidden');
+      });
+
+      renderBilan();
+    })();
+  </script>
+
+
+</body></html>
