@@ -57,3 +57,8 @@ key.properties
 # Fichiers temporaires et exports locaux
 *.csv
 renovo_bilan_*.png
+
+# Variants de fichiers d'environnement et bases locales de test
+.env.*
+*.db
+*.sqlite
