@@ -7,6 +7,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:renovo/core/theme/app_theme.dart';
 import 'package:renovo/data/models/confession.dart';
 import 'package:renovo/main.dart';
+import 'package:renovo/core/utils/date_utils.dart';
 import 'package:renovo/providers/confessions_provider.dart';
 import 'package:renovo/providers/selected_date_provider.dart';
 import 'package:renovo/screens/account_cloud_backup_screen.dart';
@@ -439,9 +440,53 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      // Verify prediction badge and quick button
+      // The future prediction remains visible without an action to record it.
       expect(find.text('Prochaine confession prévue'), findsOneWidget);
-      expect(find.text('Marquer comme effectuée'), findsOneWidget);
+      expect(find.text('Marquer comme effectuée'), findsNothing);
     },
   );
+
+  testWidgets('Future selected dates remain visible but cannot be recorded', (
+    WidgetTester tester,
+  ) async {
+    final today = RenovoDateUtils.normalizeDate(DateTime.now());
+    final futureDate = today.add(const Duration(days: 1));
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          confessionsProvider.overrideWith(() => MockConfessionsNotifier()),
+          selectedDateProvider.overrideWith(
+            () => MockSelectedDateNotifier(futureDate),
+          ),
+        ],
+        child: MaterialApp(
+          locale: const Locale('fr', 'FR'),
+          supportedLocales: const [Locale('fr', 'FR')],
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          theme: AppTheme.lightTheme,
+          home: const HomeScreen(),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text(RenovoDateUtils.formatFullFrenchDate(futureDate)),
+      findsOneWidget,
+    );
+    expect(find.text('Marquer comme effectuée'), findsNothing);
+    expect(find.text('Ajouter une confession pour ce jour'), findsNothing);
+
+    await tester.tap(find.byTooltip('Nouvel enregistrement'));
+    await tester.pumpAndSettle();
+    expect(
+      find.text(RenovoDateUtils.formatFullFrenchDate(today)),
+      findsOneWidget,
+    );
+  });
 }

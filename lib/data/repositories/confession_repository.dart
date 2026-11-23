@@ -18,6 +18,16 @@ String confessionSignature(Confession confession) => jsonEncode([
       : null,
 ]);
 
+void _validateConfessionDate(Confession confession) {
+  final date = RenovoDateUtils.normalizeDate(confession.date);
+  final today = RenovoDateUtils.normalizeDate(DateTime.now());
+  if (date.isAfter(today)) {
+    throw ArgumentError(
+      'Une confession effectuée ne peut pas être enregistrée dans le futur.',
+    );
+  }
+}
+
 abstract interface class ConfessionRepository {
   Future<bool> hasLocalConfessions();
   Future<List<Confession>> getAllConfessions({bool cacheOnly = false});
@@ -45,12 +55,17 @@ class LocalConfessionRepository implements ConfessionRepository {
       _databaseHelper.getDistinctParishes();
 
   Future<void> addConfessionsIfAbsent(Iterable<Confession> confessions) async {
+    final incomingConfessions = confessions.toList();
+    for (final confession in incomingConfessions) {
+      _validateConfessionDate(confession);
+    }
+
     final knownSignatures = {
       for (final confession in await getAllConfessions())
         confessionSignature(confession),
     };
 
-    for (final confession in confessions) {
+    for (final confession in incomingConfessions) {
       if (!knownSignatures.add(confessionSignature(confession))) continue;
       await _databaseHelper.insertConfession(
         Confession(
@@ -65,6 +80,7 @@ class LocalConfessionRepository implements ConfessionRepository {
 
   @override
   Future<ConfessionWriteStatus> insertConfession(Confession confession) async {
+    _validateConfessionDate(confession);
     await _databaseHelper.insertConfession(confession);
     return ConfessionWriteStatus.completed;
   }
@@ -73,6 +89,7 @@ class LocalConfessionRepository implements ConfessionRepository {
   Future<ConfessionWriteStatus> updateConfession(
     Confession confession,
   ) async {
+    _validateConfessionDate(confession);
     final id = confession.id;
     if (id == null) {
       throw StateError('A local confession must have an ID before updating.');
@@ -143,6 +160,7 @@ class FirestoreConfessionRepository implements ConfessionRepository {
   Future<ConfessionWriteStatus> insertConfession(
     Confession confession,
   ) async {
+    _validateConfessionDate(confession);
     return _awaitCloudWrite(
       _confessions.doc(_documentId(confession)).set(_toDocument(confession)),
     );
@@ -152,6 +170,7 @@ class FirestoreConfessionRepository implements ConfessionRepository {
   Future<ConfessionWriteStatus> updateConfession(
     Confession confession,
   ) async {
+    _validateConfessionDate(confession);
     final oldId = confession.remoteId;
     if (oldId == null) {
       throw StateError('A cloud confession must have a document ID to update.');
@@ -187,6 +206,9 @@ class FirestoreConfessionRepository implements ConfessionRepository {
 
     final localConfessions = await _databaseHelper.getAllConfessions();
     if (localConfessions.isEmpty) return;
+    for (final confession in localConfessions) {
+      _validateConfessionDate(confession);
+    }
 
     final collection = _confessionsFor(uid);
     final existingSnapshot = await collection.get();
@@ -255,12 +277,15 @@ class FirestoreConfessionRepository implements ConfessionRepository {
     );
   }
 
-  Map<String, dynamic> _toDocument(Confession confession) => {
-    'date': RenovoDateUtils.normalizeDate(confession.date).toIso8601String(),
-    'parish': confession.parish.trim(),
-    'notes': confession.notes?.trim(),
-    'createdAt': Timestamp.fromDate(confession.createdAt),
-  };
+  Map<String, dynamic> _toDocument(Confession confession) {
+    _validateConfessionDate(confession);
+    return {
+      'date': RenovoDateUtils.normalizeDate(confession.date).toIso8601String(),
+      'parish': confession.parish.trim(),
+      'notes': confession.notes?.trim(),
+      'createdAt': Timestamp.fromDate(confession.createdAt),
+    };
+  }
 
   DateTime _readDate(Object value) {
     if (value is Timestamp) return value.toDate();

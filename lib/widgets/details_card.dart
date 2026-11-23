@@ -25,6 +25,8 @@ class DetailsCard extends ConsumerWidget {
     final normalized = RenovoDateUtils.normalizeDate(selectedDate);
     final confession = confessionsMap[normalized];
     final isPredicted = predictionsSet.contains(normalized);
+    final today = RenovoDateUtils.normalizeDate(DateTime.now());
+    final isFutureDate = normalized.isAfter(today);
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final surfaceContainer = isDark ? AppTheme.darkSurfaceContainer : AppTheme.lightSurfaceContainer;
@@ -160,14 +162,16 @@ class DetailsCard extends ConsumerWidget {
               const SizedBox(height: 16),
               Row(
                 children: [
-                  Expanded(
-                    child: OutlinedButton.icon(
-                      onPressed: () => _openEditSheet(context, confession),
-                      icon: const Icon(Icons.edit_outlined, size: 16),
-                      label: const Text('Modifier'),
+                  if (!isFutureDate) ...[
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        onPressed: () => _openEditSheet(context, confession),
+                        icon: const Icon(Icons.edit_outlined, size: 16),
+                        label: const Text('Modifier'),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 12),
+                    const SizedBox(width: 12),
+                  ],
                   Expanded(
                     child: OutlinedButton.icon(
                       style: OutlinedButton.styleFrom(
@@ -183,7 +187,7 @@ class DetailsCard extends ConsumerWidget {
                   ),
                 ],
               ),
-            ] else if (isPredicted) ...[
+            ] else if (isPredicted && !isFutureDate) ...[
               const SizedBox(height: 16),
               SizedBox(
                 width: double.infinity,
@@ -208,7 +212,7 @@ class DetailsCard extends ConsumerWidget {
                   ),
                 ),
               ),
-            ] else ...[
+            ] else if (!isFutureDate) ...[
               const SizedBox(height: 16),
               SizedBox(
                 width: double.infinity,

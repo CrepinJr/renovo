@@ -135,12 +135,17 @@ class HomeScreen extends ConsumerWidget {
         shape: const CircleBorder(),
         child: const Icon(Icons.add_rounded, size: 24),
         onPressed: () {
-          final selectedDate = ref.read(selectedDateProvider);
+          final selectedDate = RenovoDateUtils.normalizeDate(
+            ref.read(selectedDateProvider),
+          );
+          final today = RenovoDateUtils.normalizeDate(DateTime.now());
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
             backgroundColor: Colors.transparent,
-            builder: (ctx) => ConfessionFormSheet(initialDate: selectedDate),
+            builder: (ctx) => ConfessionFormSheet(
+              initialDate: selectedDate.isAfter(today) ? today : selectedDate,
+            ),
           );
         },
       ),

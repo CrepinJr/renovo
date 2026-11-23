@@ -35,12 +35,15 @@ class _ConfessionFormSheetState extends ConsumerState<ConfessionFormSheet> {
   @override
   void initState() {
     super.initState();
+    final today = RenovoDateUtils.normalizeDate(DateTime.now());
     if (widget.confessionToEdit != null) {
-      _selectedDate = widget.confessionToEdit!.date;
+      final date = RenovoDateUtils.normalizeDate(widget.confessionToEdit!.date);
+      _selectedDate = date.isAfter(today) ? today : date;
       _parishController = TextEditingController(text: widget.confessionToEdit!.parish);
       _notesController = TextEditingController(text: widget.confessionToEdit!.notes ?? '');
     } else {
-      _selectedDate = widget.initialDate ?? DateTime.now();
+      final date = RenovoDateUtils.normalizeDate(widget.initialDate ?? DateTime.now());
+      _selectedDate = date.isAfter(today) ? today : date;
       _parishController = TextEditingController();
       _notesController = TextEditingController();
     }
@@ -54,11 +57,12 @@ class _ConfessionFormSheetState extends ConsumerState<ConfessionFormSheet> {
   }
 
   Future<void> _pickDate() async {
+    final today = RenovoDateUtils.normalizeDate(DateTime.now());
     final picked = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
       firstDate: DateTime(2020),
-      lastDate: DateTime(2035),
+      lastDate: today,
       locale: const Locale('fr', 'FR'),
     );
     if (picked != null) {
@@ -142,6 +146,9 @@ class _ConfessionFormSheetState extends ConsumerState<ConfessionFormSheet> {
         : const ['St Joseph', 'Cathédrale', 'Notre-Dame'];
 
     final isEditing = widget.confessionToEdit != null;
+    final today = RenovoDateUtils.normalizeDate(DateTime.now());
+    final isSelectedDateInFuture = RenovoDateUtils.normalizeDate(_selectedDate)
+        .isAfter(today);
 
     return Container(
       decoration: BoxDecoration(
@@ -373,7 +380,7 @@ class _ConfessionFormSheetState extends ConsumerState<ConfessionFormSheet> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    onPressed: _isSaving ? null : _save,
+                    onPressed: _isSaving || isSelectedDateInFuture ? null : _save,
                     child: _isSaving
                         ? SizedBox(
                             height: 20,
