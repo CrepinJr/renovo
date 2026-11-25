@@ -125,34 +125,43 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
 
     <!-- Top Bar -->
     <header class="flex items-center justify-between pt-gutter-xs">
-      <a href="../splash/Splash.html" class="font-headline text-headline-lg text-light-on-surface dark:text-dark-on-surface tracking-tight" data-design-text-token="headline-lg">
-        Renovo
-      </a>
-      <div class="flex items-center gap-gutter-xs">
-        <a id="sync-status-pill" href="../account-sync/AccountCloudBackup.html" data-component-id="chip-sync-status" data-component-type="chip" data-component-variant="action" aria-label="Statut de sauvegarde : Local" class="inline-flex items-center gap-gutter-xs h-9 px-gutter-md rounded-full bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline text-light-on-surface-variant dark:text-dark-on-surface-variant font-label text-label-md transition-colors duration-state-change ease-state-change hover:border-light-primary dark:hover:border-dark-primary">
-          <span class="material-symbols-outlined text-[15px]" aria-hidden="true">cloud_off</span>
-          <span data-design-text-token="label-md">Local</span>
+      <div class="flex items-center gap-gutter-sm">
+        <a href="AccueilCalendrierDrawer.html" aria-label="Ouvrir le menu de navigation" class="inline-flex items-center justify-center w-9 h-9 rounded-full text-light-on-surface dark:text-dark-on-surface hover:bg-light-surface-container-low dark:hover:bg-dark-surface-container-low transition-colors duration-state-change ease-state-change">
+          <span class="material-symbols-outlined text-[22px]" aria-hidden="true">menu</span>
         </a>
+        <span class="font-headline text-headline-lg text-light-on-surface dark:text-dark-on-surface tracking-tight" data-design-text-token="headline-lg">
+          Renovo
+        </span>
+      </div>
+      <div class="flex items-center gap-gutter-xs">
         <button id="today-btn" data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" aria-label="Aller à aujourd&#39;hui" title="Aujourd&#39;hui" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline text-light-on-surface dark:text-dark-on-surface transition-colors duration-state-change ease-state-change hover:bg-light-surface-container-low dark:hover:bg-dark-surface-container-low">
           <span class="material-symbols-outlined text-[18px]" aria-hidden="true">today</span>
         </button>
-        <button id="theme-toggle" data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" aria-label="Changer le thème" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline text-light-on-surface dark:text-dark-on-surface transition-colors duration-state-change ease-state-change hover:bg-light-surface-container-low dark:hover:bg-dark-surface-container-low">
-          <span id="theme-icon" class="material-symbols-outlined text-[18px]" aria-hidden="true">dark_mode</span>
-        </button>
+        <a id="user-avatar-btn" href="../account-sync/AccountCloudBackup.html" aria-label="Compte &amp; Sauvegarde" class="relative inline-flex items-center justify-center w-9 h-9 rounded-full bg-light-primary-container dark:bg-dark-primary-container border border-light-outline dark:border-dark-outline text-light-on-primary-container dark:text-dark-on-primary-container font-label text-label-md transition-opacity duration-state-change ease-state-change hover:opacity-90">
+          <span data-design-text-token="label-md">CM</span>
+          <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-sage-emerald text-on-sage-emerald flex items-center justify-center border border-light-surface dark:border-dark-surface">
+            <span class="material-symbols-outlined text-[10px]" aria-hidden="true">check</span>
+          </span>
+        </a>
       </div>
     </header>
 
     <!-- Clean Horizontal Legend Pill -->
     <div class="flex items-center justify-start">
-      <div data-component-id="chip-legend" data-component-type="chip" data-component-variant="assist" class="inline-flex items-center gap-gutter-md px-gutter-md py-gutter-xs rounded-full bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline">
-        <span class="inline-flex items-center gap-gutter-xs font-label text-label-md text-light-on-surface dark:text-dark-on-surface">
+      <div data-component-id="chip-legend" data-component-type="chip" data-component-variant="assist" class="inline-flex flex-wrap items-center gap-gutter-sm px-gutter-md py-gutter-xs rounded-full bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline">
+        <span class="inline-flex items-center gap-gutter-xs font-label text-label-sm text-light-on-surface dark:text-dark-on-surface">
           <span class="w-2 h-2 rounded-full bg-sage-emerald" aria-hidden="true"></span>
-          <span data-design-text-token="label-md">Effectuée</span>
+          <span data-design-text-token="label-sm">Effectuée</span>
         </span>
         <span class="text-light-outline dark:text-dark-outline" aria-hidden="true">•</span>
-        <span class="inline-flex items-center gap-gutter-xs font-label text-label-md text-light-on-surface dark:text-dark-on-surface">
+        <span class="inline-flex items-center gap-gutter-xs font-label text-label-sm text-light-on-surface dark:text-dark-on-surface">
           <span class="w-2 h-2 rounded-full bg-antique-gold" aria-hidden="true"></span>
-          <span data-design-text-token="label-md">Prévue (Samedi)</span>
+          <span data-design-text-token="label-sm">Prévue (Samedi)</span>
+        </span>
+        <span class="text-light-outline dark:text-dark-outline" aria-hidden="true">•</span>
+        <span class="inline-flex items-center gap-gutter-xs font-label text-label-sm text-light-on-surface-variant dark:text-dark-on-surface-variant">
+          <span class="w-2 h-2 rounded-full bg-light-on-surface-variant/60 dark:bg-dark-on-surface-variant/60" aria-hidden="true"></span>
+          <span data-design-text-token="label-sm">Non effectuée</span>
         </span>
       </div>
     </div>
@@ -232,37 +241,9 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
   <script>
     (function () {
       const root = document.documentElement;
-      const toggle = document.getElementById('theme-toggle');
-      const icon = document.getElementById('theme-icon');
-
-      function applyTheme(isDark) {
-        if (isDark) {
+      try {
+        if (localStorage.getItem('renovo-theme') === 'dark') {
           root.classList.add('dark');
-          icon.textContent = 'light_mode';
-        } else {
-          root.classList.remove('dark');
-          icon.textContent = 'dark_mode';
-        }
-        try {
-          localStorage.setItem('renovo-theme', isDark ? 'dark' : 'light');
-        } catch (e) {}
-      }
-
-      try {
-        const saved = localStorage.getItem('renovo-theme');
-        if (saved === 'dark') applyTheme(true);
-      } catch (e) {}
-
-      toggle.addEventListener('click', function () {
-        applyTheme(!root.classList.contains('dark'));
-      });
-
-      const syncPill = document.getElementById('sync-status-pill');
-      try {
-        if (localStorage.getItem('renovo-signed-in') === 'true' && syncPill) {
-          syncPill.className = 'relative inline-flex items-center justify-center w-9 h-9 rounded-full bg-light-primary-container dark:bg-dark-primary-container border border-light-outline dark:border-dark-outline text-light-on-primary-container dark:text-dark-on-primary-container font-label text-label-md transition-opacity duration-state-change ease-state-change hover:opacity-90';
-          syncPill.setAttribute('aria-label', 'Cloud Sync Active');
-          syncPill.innerHTML = '<span data-design-text-token="label-md">CM</span><span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-sage-emerald text-on-sage-emerald flex items-center justify-center border border-light-surface dark:border-dark-surface"><span class="material-symbols-outlined text-[10px]" aria-hidden="true">check</span></span>';
         }
       } catch (e) {}
 
@@ -279,8 +260,9 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
         'Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'
       ];
 
-      // Completed dates (ISO YYYY-MM-DD): Oct 31, Nov 21, and Dec 5? Keep Nov 21 as last completed, Dec 12 as predicted (3 weeks later)
+      // Completed dates (ISO YYYY-MM-DD): Oct 31, Nov 21; Missed >72h: Dec 5; Predicted: Dec 12, Jan 2
       const completedDates = new Set(['2026-10-31', '2026-11-21']);
+      const missedDates = new Set(['2026-12-05', '2026-10-10']);
       const predictedDates = new Set(['2026-12-12', '2027-01-02']);
 
       let viewYear = 2026;
@@ -318,6 +300,14 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
           markBtnLabel.textContent = 'Enregistrée';
           markBtn.disabled = true;
           markBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        } else if (missedDates.has(selectedISO)) {
+          detailStatusPill.className = 'inline-flex items-center gap-gutter-xs px-gutter-md py-gutter-xs rounded-full bg-light-surface-container-low dark:bg-dark-surface-container-low border border-light-outline dark:border-dark-outline text-light-on-surface-variant dark:text-dark-on-surface-variant font-label text-label-md';
+          detailStatusDot.className = 'w-2 h-2 rounded-full bg-light-on-surface-variant/60 dark:bg-dark-on-surface-variant/60';
+          detailStatusText.textContent = 'Échéance non effectuée (délai de 72h dépassé)';
+          detailHelperEl.textContent = 'Vous pouvez enregistrer cette confession à tout moment';
+          markBtnLabel.textContent = 'Marquer comme effectuée';
+          markBtn.disabled = false;
+          markBtn.classList.remove('opacity-50', 'cursor-not-allowed');
         } else if (predictedDates.has(selectedISO)) {
           detailStatusPill.className = 'inline-flex items-center gap-gutter-xs px-gutter-md py-gutter-xs rounded-full bg-gold-tint text-on-gold-tint font-label text-label-md';
           detailStatusDot.className = 'w-2 h-2 rounded-full bg-antique-gold';
@@ -356,6 +346,7 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
           const iso = toISO(viewYear, viewMonth, day);
           const isSelected = iso === selectedISO;
           const isCompleted = completedDates.has(iso);
+          const isMissed = missedDates.has(iso);
           const isPredicted = predictedDates.has(iso);
 
           const btn = document.createElement('button');
@@ -366,7 +357,9 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
               ? 'bg-light-primary dark:bg-dark-primary text-light-on-primary dark:text-dark-on-primary'
               : isPredicted
                 ? 'ring-1 ring-antique-gold text-light-on-surface dark:text-dark-on-surface hover:bg-light-surface-container-low dark:hover:bg-dark-surface-container-low'
-                : 'text-light-on-surface dark:text-dark-on-surface hover:bg-light-surface-container-low dark:hover:bg-dark-surface-container-low');
+                : isMissed
+                  ? 'ring-1 ring-light-on-surface-variant/35 dark:ring-dark-on-surface-variant/35 text-light-on-surface-variant dark:text-dark-on-surface-variant hover:bg-light-surface-container-low dark:hover:bg-dark-surface-container-low'
+                  : 'text-light-on-surface dark:text-dark-on-surface hover:bg-light-surface-container-low dark:hover:bg-dark-surface-container-low');
 
           const numSpan = document.createElement('span');
           numSpan.className = 'font-body text-body-md leading-none';
@@ -379,6 +372,8 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
             dot.className = 'w-1.5 h-1.5 rounded-full bg-sage-emerald';
           } else if (isPredicted) {
             dot.className = 'w-1.5 h-1.5 rounded-full bg-antique-gold';
+          } else if (isMissed) {
+            dot.className = 'w-1.5 h-1.5 rounded-full bg-light-on-surface-variant/60 dark:bg-dark-on-surface-variant/60';
           } else {
             dot.className = 'w-1.5 h-1.5 rounded-full bg-transparent';
           }
@@ -423,6 +418,7 @@ if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
       markBtn.addEventListener('click', function () {
         completedDates.add(selectedISO);
         predictedDates.delete(selectedISO);
+        missedDates.delete(selectedISO);
         renderCalendar();
         renderDetail();
       });

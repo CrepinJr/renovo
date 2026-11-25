@@ -2,13 +2,90 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:renovo/core/utils/prediction_calculator.dart';
 
 void main() {
-  group('PredictionCalculator - Règle des 21 jours et alignement au Samedi', () {
-    test('Retourne une liste vide si aucune confession précédente n’existe', () {
-      final predictions = PredictionCalculator.calculatePredictions(
-        latestConfessionDate: null,
-      );
-      expect(predictions, isEmpty);
+  group('PredictionCalculator - Cycles et alignement au samedi', () {
+    test('Cycles de 1 à 4 semaines restent alignés au samedi', () {
+      final confessionDate = DateTime(2026, 11, 21);
+      for (final weeks in [1, 2, 3, 4]) {
+        final interval = Duration(days: weeks * 7);
+        final predictions = PredictionCalculator.calculatePredictions(
+          latestConfessionDate: confessionDate,
+          cycleWeeks: weeks,
+        );
+
+        expect(predictions.first, confessionDate.add(interval));
+        expect(predictions.first.weekday, DateTime.saturday);
+        expect(predictions[1].difference(predictions.first), interval);
+        expect(predictions[1].weekday, DateTime.saturday);
+        expect(
+          PredictionCalculator.statusForDate(
+            date: predictions.first,
+            completedDates: const [],
+            now: predictions.first.add(const Duration(hours: 73)),
+          ),
+          PredictionStatus.missed,
+        );
+      }
     });
+
+    test('Une échéance reste en attente à D+71h', () {
+      final deadline = DateTime(2026, 12, 12);
+
+      expect(
+        PredictionCalculator.statusForDate(
+          date: deadline,
+          completedDates: const [],
+          now: deadline.add(const Duration(hours: 71)),
+        ),
+        PredictionStatus.upcoming,
+      );
+    });
+
+    test('Une échéance devient non effectuée après D+72h', () {
+      final deadline = DateTime(2026, 12, 12);
+
+      expect(
+        PredictionCalculator.statusForDate(
+          date: deadline,
+          completedDates: const [],
+          now: deadline.add(const Duration(hours: 73)),
+        ),
+        PredictionStatus.missed,
+      );
+    });
+
+    test('Une confession enregistrée après l’échéance repasse à effectuée', () {
+      final deadline = DateTime(2026, 12, 12);
+
+      expect(
+        PredictionCalculator.statusForDate(
+          date: deadline,
+          completedDates: [deadline],
+          now: deadline.add(const Duration(hours: 73)),
+        ),
+        PredictionStatus.completed,
+      );
+    });
+
+    test('Le cycle suivant reste calculé après une échéance manquée', () {
+      final missedDeadline = DateTime(2026, 12, 12);
+      final predictions = PredictionCalculator.calculatePredictions(
+        latestConfessionDate: DateTime(2026, 11, 21),
+        now: missedDeadline.add(const Duration(hours: 73)),
+      );
+
+      expect(predictions.first, missedDeadline);
+      expect(predictions[1], DateTime(2027, 1, 2));
+    });
+
+    test(
+      'Retourne une liste vide si aucune confession précédente n’existe',
+      () {
+        final predictions = PredictionCalculator.calculatePredictions(
+          latestConfessionDate: null,
+        );
+        expect(predictions, isEmpty);
+      },
+    );
 
     test('Confession un Samedi : +21 jours retombe exactement un Samedi', () {
       // 21 Novembre 2026 est un Samedi (DateTime.saturday)
@@ -27,11 +104,17 @@ void main() {
 
       // Toutes les dates prévisionnelles doivent être des Samedis espacées de 21 jours
       for (int i = 0; i < predictions.length; i++) {
-        expect(predictions[i].weekday, DateTime.saturday,
-            reason: 'La prédiction #$i doit être un Samedi');
+        expect(
+          predictions[i].weekday,
+          DateTime.saturday,
+          reason: 'La prédiction #$i doit être un Samedi',
+        );
         if (i > 0) {
-          expect(predictions[i].difference(predictions[i - 1]).inDays, 21,
-              reason: 'Chaque prévision successive doit être espacée de 21 jours');
+          expect(
+            predictions[i].difference(predictions[i - 1]).inDays,
+            21,
+            reason: 'Chaque prévision successive doit être espacée de 21 jours',
+          );
         }
       }
     });
@@ -83,14 +166,19 @@ void main() {
           latestConfessionDate: refDate,
         );
 
-        expect(predictions, isNotEmpty,
-            reason: 'Les prévisions pour ${refDate.toIso8601String()} ne doivent pas être vides');
+        expect(
+          predictions,
+          isNotEmpty,
+          reason:
+              'Les prévisions pour ${refDate.toIso8601String()} ne doivent pas être vides',
+        );
 
         for (final p in predictions) {
           expect(
             p.weekday,
             DateTime.saturday,
-            reason: 'Pour une confession le jour ${refDate.weekday}, la date $p doit être un Samedi',
+            reason:
+                'Pour une confession le jour ${refDate.weekday}, la date $p doit être un Samedi',
           );
         }
       }
@@ -107,7 +195,11 @@ void main() {
 
       // Vérifie que la dernière date ne dépasse pas l'horizon des 6 mois
       final horizonEnd = DateTime(refDate.year, refDate.month + 6, refDate.day);
-      expect(predictions.last.isBefore(horizonEnd) || predictions.last.isAtSameMomentAs(horizonEnd), isTrue);
+      expect(
+        predictions.last.isBefore(horizonEnd) ||
+            predictions.last.isAtSameMomentAs(horizonEnd),
+        isTrue,
+      );
     });
   });
 }

@@ -1,6 +1,8 @@
 import 'date_utils.dart';
 
-/// Strategy for Saturday alignment if target date (date + 21 days) is not already a Saturday.
+enum PredictionStatus { upcoming, missed, completed }
+
+/// Strategy for Saturday alignment if the calculated target is not a Saturday.
 enum SaturdayAlignmentMode {
   /// Aligns to the closest Saturday (e.g. Wednesday -> Saturday +3d, Sunday -> Saturday -1d).
   closest,
@@ -13,15 +15,16 @@ enum SaturdayAlignmentMode {
 ///
 /// Rules:
 /// 1. Takes the latest effective confession date as the reference.
-/// 2. Projects forward by adding 21 days (3 weeks).
+/// 2. Projects forward by adding the configured number of weeks.
 /// 3. Aligns the first projection to Saturday if not already a Saturday.
-/// 4. Repeats the exact 21-day interval from that Saturday forward for 6 months (~182 days).
+/// 4. Repeats the configured interval from that Saturday forward for 6 months.
 /// 5. Every generated predicted date is strictly guaranteed to fall on a Saturday (DateTime.saturday).
 class PredictionCalculator {
   PredictionCalculator._();
 
-  /// Standard cycle interval in days (3 weeks).
+  /// Default cycle interval in days (3 weeks).
   static const int cycleDays = 21;
+  static const int defaultCycleWeeks = 3;
 
   /// Default projection horizon in months.
   static const int defaultHorizonMonths = 6;
@@ -73,42 +76,83 @@ class PredictionCalculator {
   static List<DateTime> calculatePredictions({
     required DateTime? latestConfessionDate,
     int monthsAhead = defaultHorizonMonths,
+    int cycleWeeks = defaultCycleWeeks,
     SaturdayAlignmentMode alignmentMode = SaturdayAlignmentMode.closest,
+    DateTime? now,
   }) {
+    if (cycleWeeks < 1 || cycleWeeks > 12) {
+      throw ArgumentError.value(
+        cycleWeeks,
+        'cycleWeeks',
+        'Cycle must be between 1 and 12 weeks.',
+      );
+    }
     if (latestConfessionDate == null) {
       return const [];
     }
 
-    final normalizedLatest = RenovoDateUtils.normalizeDate(latestConfessionDate);
+    final cycleDuration = Duration(days: cycleWeeks * 7);
+    final normalizedLatest = RenovoDateUtils.normalizeDate(
+      latestConfessionDate,
+    );
     // Horizon limit: 6 months from reference (e.g., 183 days)
-    final horizonEnd = DateTime(
+    var horizonEnd = DateTime(
       normalizedLatest.year,
       normalizedLatest.month + monthsAhead,
       normalizedLatest.day,
     );
+    if (now != null) {
+      final currentHorizonEnd = DateTime(
+        now.year,
+        now.month + monthsAhead,
+        now.day,
+      );
+      if (currentHorizonEnd.isAfter(horizonEnd)) {
+        horizonEnd = currentHorizonEnd;
+      }
+    }
 
     final predictions = <DateTime>[];
 
-    // 1. Calculate first target: latest + 21 days
-    final firstRawTarget = normalizedLatest.add(const Duration(days: cycleDays));
+    // 1. Calculate the first target using the configured interval.
+    final firstRawTarget = normalizedLatest.add(cycleDuration);
 
     // 2. Align to Saturday
     var currentSaturday = alignToSaturday(firstRawTarget, mode: alignmentMode);
 
-    // If aligning closest resulted in a date on or before the latest confession date (edge case),
-    // shift forward by 21 days or to next Saturday.
+    // If alignment lands on or before the latest confession date, advance by
+    // the configured interval.
     while (!currentSaturday.isAfter(normalizedLatest)) {
-      currentSaturday = currentSaturday.add(const Duration(days: cycleDays));
+      currentSaturday = currentSaturday.add(cycleDuration);
     }
 
-    // 3. Repeat the 21-day interval from this Saturday for the entire horizon
+    // 3. Repeat the interval from this Saturday for the entire horizon.
     while (!currentSaturday.isAfter(horizonEnd)) {
       predictions.add(currentSaturday);
-      // Since currentSaturday is a Saturday, adding 21 days (multiple of 7)
+      // Since each interval is a multiple of 7 days,
       // strictly guarantees that all subsequent dates are also Saturdays.
-      currentSaturday = currentSaturday.add(const Duration(days: cycleDays));
+      currentSaturday = currentSaturday.add(cycleDuration);
     }
 
     return predictions;
+  }
+
+  static PredictionStatus statusForDate({
+    required DateTime date,
+    required Iterable<DateTime> completedDates,
+    required DateTime now,
+  }) {
+    final normalizedDate = RenovoDateUtils.normalizeDate(date);
+    if (completedDates.any(
+      (completedDate) =>
+          RenovoDateUtils.normalizeDate(completedDate) == normalizedDate,
+    )) {
+      return PredictionStatus.completed;
+    }
+
+    final missedAt = normalizedDate.add(const Duration(hours: 72));
+    return now.isAfter(missedAt)
+        ? PredictionStatus.missed
+        : PredictionStatus.upcoming;
   }
 }

@@ -1,0 +1,198 @@
+<!DOCTYPE html><html lang="fr"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Renovo — Écran de démarrage (Plein écran)</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'liturgical-indigo': '#2C3E6B',
+        'on-liturgical-indigo': '#FFFFFF',
+        'sage-emerald': '#2E7D5B',
+        'on-sage-emerald': '#FFFFFF',
+        'sage-tint': '#E8F3EE',
+        'on-sage-tint': '#003824',
+        'antique-gold': '#D49A3A',
+        'on-antique-gold': '#281800',
+        'gold-tint': '#FFEEDB',
+        'on-gold-tint': '#442C00',
+        'alabaster': '#FAF8F5',
+        'obsidian': '#121316',
+        'slate-charcoal': '#1C1E24',
+        'light-primary': '#2C3E6B',
+        'light-on-primary': '#FFFFFF',
+        'light-primary-container': '#DAE2FF',
+        'light-on-primary-container': '#021945',
+        'light-surface': '#FAF8F5',
+        'light-surface-container': '#FFFFFF',
+        'light-surface-container-low': '#F2F0ED',
+        'light-on-surface': '#1C1B18',
+        'light-on-surface-variant': '#5E5E5C',
+        'light-outline': '#EAE5DC',
+        'light-outline-variant': '#E4E2DF',
+        'dark-primary': '#B4C5FB',
+        'dark-on-primary': '#021945',
+        'dark-primary-container': '#1C2F5B',
+        'dark-on-primary-container': '#DAE2FF',
+        'dark-surface': '#121316',
+        'dark-surface-container': '#1C1E24',
+        'dark-surface-container-low': '#191B23',
+        'dark-on-surface': '#F3F1ED',
+        'dark-on-surface-variant': '#ACABA8',
+        'dark-outline': '#2A2D35',
+        'dark-outline-variant': '#2E3038',
+      },
+      borderRadius: {
+        'sm': '6px',
+        'DEFAULT': '12px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '20px',
+        '2xl': '24px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '12px',
+        'gutter-lg': '16px',
+        'gutter-xl': '20px',
+        'section': '24px',
+        'page-margin': '20px',
+      },
+      fontFamily: {
+        'display': ['"Lora"', 'sans-serif'],
+        'headline': ['"Lora"', 'sans-serif'],
+        'title': ['"Plus Jakarta Sans"', 'sans-serif'],
+        'body': ['"Plus Jakarta Sans"', 'sans-serif'],
+        'label': ['"Plus Jakarta Sans"', 'sans-serif'],
+      },
+      fontSize: {
+        'display-lg': ['40px', { lineHeight: '48px', letterSpacing: '-0.5px', fontWeight: '500' }],
+        'display-lg-mobile': ['32px', { lineHeight: '38px', letterSpacing: '-0.25px', fontWeight: '500' }],
+        'headline-lg': ['28px', { lineHeight: '34px', letterSpacing: '-0.25px', fontWeight: '600' }],
+        'headline-md': ['22px', { lineHeight: '28px', letterSpacing: '-0.15px', fontWeight: '600' }],
+        'title-lg': ['18px', { lineHeight: '24px', letterSpacing: '-0.1px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-md': ['14px', { lineHeight: '21px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-sm': ['13px', { lineHeight: '19px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['14px', { lineHeight: '20px', letterSpacing: '0.1px', fontWeight: '600' }],
+        'label-md': ['12px', { lineHeight: '16px', letterSpacing: '0.2px', fontWeight: '500' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.3px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '260ms',
+        'surface-exit': '180ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    @keyframes renovo-progress {
+      0% {
+        transform: translateX(-100%);
+        opacity: 0.4;
+      }
+      50% {
+        opacity: 0.95;
+      }
+      100% {
+        transform: translateX(220%);
+        opacity: 0.4;
+      }
+    }
+    .renovo-loader-bar {
+      animation: renovo-progress 2.2s cubic-bezier(0.2, 0, 0, 1) infinite;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .renovo-loader-bar {
+        animation: none;
+        transform: translateX(0);
+        width: 100%;
+        opacity: 0.65;
+      }
+    }
+  </style>
+</head>
+<body class="bg-liturgical-indigo text-alabaster font-body antialiased">
+  <div class="min-h-[884px] w-full max-w-[390px] mx-auto bg-liturgical-indigo flex flex-col justify-between items-center px-page-margin py-section relative" data-stitch-vh="min-h-[884px]===min-h-screen">
+
+    <!-- Top Spacer for True Vertical Centering -->
+    <div class="h-10" aria-hidden="true"></div>
+
+    <!-- Centered Emblem, Wordmark & Biblical Quote -->
+    <main class="flex flex-col items-center justify-center text-center gap-section px-gutter-sm">
+      <!-- Minimalist Vector Emblem in Antique Gold (#D49A3A) -->
+      <div class="relative flex items-center justify-center">
+        <svg width="96" height="104" viewBox="0 0 88 96" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Subtle deep sanctuary backdrop arch -->
+          <path d="M23 70V45C23 33.402 32.402 24 44 24C55.598 24 65 33.402 65 45V70H23Z" fill="#121316" fill-opacity="0.22"></path>
+
+          <!-- Small radiant cross surmounting the sanctuary arch in Antique Gold -->
+          <path d="M44 8V22" stroke="#D49A3A" stroke-width="1.5" stroke-linecap="round"></path>
+          <path d="M38 14H50" stroke="#D49A3A" stroke-width="1.5" stroke-linecap="round"></path>
+          <path d="M36 9L38.5 11.5" stroke="#D49A3A" stroke-width="1.1" stroke-linecap="round" opacity="0.75"></path>
+          <path d="M52 9L49.5 11.5" stroke="#D49A3A" stroke-width="1.1" stroke-linecap="round" opacity="0.75"></path>
+          <path d="M34 17L37 16" stroke="#D49A3A" stroke-width="1.1" stroke-linecap="round" opacity="0.55"></path>
+          <path d="M54 17L51 16" stroke="#D49A3A" stroke-width="1.1" stroke-linecap="round" opacity="0.55"></path>
+
+          <!-- Fine sanctuary arch in Antique Gold -->
+          <path d="M23 70V45C23 33.402 32.402 24 44 24C55.598 24 65 33.402 65 45V70" stroke="#D49A3A" stroke-width="1.5" stroke-linecap="round"></path>
+          <!-- Inner delicate arch line -->
+          <path d="M28.5 70V45.5C28.5 36.9396 35.4396 30 44 30C52.5604 30 59.5 36.9396 59.5 45.5V70" stroke="#D49A3A" stroke-width="1" stroke-linecap="round" opacity="0.5"></path>
+
+          <!-- Delicate olive branch curving at the base -->
+          <path d="M27 77C33.5 81.5 42 82 51 79.5C55.5 78.2 59.5 76 62 73.5" stroke="#D49A3A" stroke-width="1.3" stroke-linecap="round"></path>
+          <path d="M35 79.8C33.5 76.8 34.5 74.5 37 74C38.5 76.5 37.5 79 35 79.8Z" stroke="#D49A3A" stroke-width="1.1" stroke-linejoin="round"></path>
+          <path d="M43 81C42.5 77.8 44 75.5 46.5 75.5C47.5 78 46 80.5 43 81Z" stroke="#D49A3A" stroke-width="1.1" stroke-linejoin="round"></path>
+          <path d="M51.5 79.2C51.8 76.2 53.8 74.2 56.2 74.8C56.5 77.2 54.5 79.2 51.5 79.2Z" stroke="#D49A3A" stroke-width="1.1" stroke-linejoin="round"></path>
+          <path d="M40 81.2C40.8 83.8 42.8 85.2 45 84.5C44.5 82.2 42.5 81 40 81.2Z" stroke="#D49A3A" stroke-width="1.1" stroke-linejoin="round" opacity="0.8"></path>
+        </svg>
+      </div>
+
+      <!-- Title & Contemplative Quote -->
+      <div class="flex flex-col items-center gap-gutter-lg max-w-[300px]">
+        <h1 class="font-display text-display-lg-mobile font-semibold text-alabaster tracking-widest" data-design-text-token="display-lg-mobile">
+          Renovo
+        </h1>
+
+        <figure class="flex flex-col items-center gap-gutter-sm">
+          <blockquote class="font-display italic text-body-md text-alabaster/80 text-pretty leading-relaxed" data-design-text-token="body-md">
+            « Si nous confessons nos péchés, il est fidèle et juste pour nous les pardonner. »
+          </blockquote>
+          <figcaption class="font-label text-label-sm uppercase tracking-widest text-gold-tint" data-design-text-token="label-sm">
+            1 JEAN 1, 9
+          </figcaption>
+        </figure>
+      </div>
+    </main>
+
+    <!-- Minimalist Loading Indicator at Bottom -->
+    <footer class="flex flex-col items-center justify-center pb-gutter-lg" aria-label="Chargement automatique">
+      <div class="w-20 h-0.5 rounded-full bg-alabaster/15 overflow-hidden">
+        <div class="w-8 h-full rounded-full bg-antique-gold renovo-loader-bar"></div>
+      </div>
+    </footer>
+
+  </div>
+
+
+</body></html>

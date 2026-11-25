@@ -50,6 +50,9 @@ dependencies:
   share_plus: 10.1.4
   path_provider: 2.1.6
   shared_preferences: ^2.5.6
+  flutter_local_notifications: ^23.0.4
+  timezone: ^0.11.2
+  flutter_timezone: ^5.1.1
 
 dev_dependencies:
   flutter_test:
@@ -61,19 +64,10 @@ dev_dependencies:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/icon/renovo_logo.png"
+  image_path: "assets/icon/renovo_emblem.png"
   adaptive_icon_background: "#223154"
-  adaptive_icon_foreground: "assets/icon/renovo_logo.png"
+  adaptive_icon_foreground: "assets/icon/renovo_emblem.png"
   remove_alpha_ios: true
-
-flutter_native_splash:
-  color: "#223154"
-  color_dark: "#223154"
-  image: "assets/icon/renovo_logo.png"
-  android_12:
-    image: "assets/icon/renovo_logo.png"
-    color: "#223154"
-    icon_background_color: "#223154"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -88,6 +82,7 @@ flutter:
 
   assets:
     - assets/icon/renovo_logo.png
+    - assets/icon/renovo_emblem.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

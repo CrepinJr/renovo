@@ -9,13 +9,19 @@ import 'package:renovo/data/models/confession.dart';
 import 'package:renovo/main.dart';
 import 'package:renovo/core/utils/date_utils.dart';
 import 'package:renovo/providers/confessions_provider.dart';
+import 'package:renovo/providers/notification_provider.dart';
+import 'package:renovo/providers/predictions_provider.dart';
 import 'package:renovo/providers/selected_date_provider.dart';
 import 'package:renovo/screens/account_cloud_backup_screen.dart';
 import 'package:renovo/screens/home_screen.dart';
+import 'package:renovo/screens/settings_screen.dart';
 import 'package:renovo/services/auth_service.dart';
+import 'package:renovo/services/notification_service.dart';
 import 'package:renovo/widgets/annual_share_card.dart';
 import 'package:renovo/widgets/annual_report_section.dart';
 import 'package:renovo/widgets/customize_share_card_modal.dart';
+import 'package:renovo/widgets/details_card.dart';
+import 'package:renovo/widgets/legend_widget.dart';
 import 'package:renovo/widgets/sign_out_confirmation_modal.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -39,32 +45,71 @@ class MockSelectedDateNotifier extends SelectedDateNotifier {
   DateTime build() => initialDate;
 }
 
+class MockNotificationService extends NotificationService {
+  MockNotificationService()
+    : super(onMarkDone: (_) async {}, onOpenDate: (_) {});
+
+  int testNotificationCount = 0;
+  int rescheduleCount = 0;
+
+  @override
+  Future<ReminderPreferences> loadPreferences() async =>
+      const ReminderPreferences();
+
+  @override
+  Future<bool> requestPermissions({bool requestExactAlarms = false}) async =>
+      true;
+
+  @override
+  Future<void> savePreferences(ReminderPreferences value) async {}
+
+  @override
+  Future<void> rescheduleReminders({
+    required Iterable<Confession> confessions,
+    DateTime? now,
+  }) async {
+    rescheduleCount++;
+  }
+
+  @override
+  Future<void> sendTestNotification() async {
+    testNotificationCount++;
+  }
+}
+
 void main() {
   setUpAll(() async {
     GoogleFonts.config.allowRuntimeFetching = false;
     await initializeDateFormatting('fr_FR', null);
   });
 
-  testWidgets(
-    'RenovoApp launches directly to HomeScreen without intermediate splash',
-    (WidgetTester tester) async {
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: [
-            confessionsProvider.overrideWith(() => MockConfessionsNotifier()),
-          ],
-          child: const RenovoApp(),
-        ),
-      );
+  setUp(() {
+    SharedPreferences.setMockInitialValues({});
+  });
 
-      await tester.pumpAndSettle();
+  testWidgets('RenovoApp opens HomeScreen directly', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          confessionsProvider.overrideWith(() => MockConfessionsNotifier()),
+          authStateProvider.overrideWith((ref) => Stream.value(null)),
+          notificationServiceProvider.overrideWith(
+            (ref) async => MockNotificationService(),
+          ),
+        ],
+        child: const RenovoApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
 
-      // Verify Title Renovo and immediate presence of HomeScreen
-      expect(find.text('Renovo'), findsOneWidget);
-      expect(find.byType(FloatingActionButton), findsOneWidget);
-      expect(find.byTooltip('Nouvel enregistrement'), findsOneWidget);
-    },
-  );
+    expect(find.byType(HomeScreen), findsOneWidget);
+    expect(find.text('1 JEAN 1, 9'), findsNothing);
+    expect(find.text('Renovo'), findsOneWidget);
+    expect(find.byType(FloatingActionButton), findsOneWidget);
+    expect(find.byTooltip('Nouvel enregistrement'), findsOneWidget);
+  });
 
   testWidgets(
     'Renovo HomeScreen renders correctly with title and circular floating button',
@@ -73,6 +118,9 @@ void main() {
         ProviderScope(
           overrides: [
             confessionsProvider.overrideWith(() => MockConfessionsNotifier()),
+            notificationServiceProvider.overrideWith(
+              (ref) async => MockNotificationService(),
+            ),
           ],
           child: MaterialApp(
             locale: const Locale('fr', 'FR'),
@@ -92,10 +140,14 @@ void main() {
 
       // Verify Title Renovo
       expect(find.text('Renovo'), findsOneWidget);
+      expect(find.byIcon(Icons.menu_rounded), findsOneWidget);
+      expect(find.byTooltip('Aujourd’hui'), findsOneWidget);
+      expect(find.byIcon(Icons.light_mode_outlined), findsNothing);
 
       // Verify Legend items from Stitch design
       expect(find.text('Effectuée'), findsOneWidget);
       expect(find.text('Prévue (Samedi)'), findsOneWidget);
+      expect(find.text('Non effectuée'), findsOneWidget);
 
       // Verify Empty state message for default date
       expect(find.text('Aucune confession enregistrée'), findsOneWidget);
@@ -113,14 +165,46 @@ void main() {
     },
   );
 
-  testWidgets('Guest backup pill opens the local account screen', (
+  testWidgets('calendar legend keeps the missed marker beside its label', (
     WidgetTester tester,
   ) async {
+    tester.view.physicalSize = const Size(250, 800);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.lightTheme,
+        home: const Scaffold(body: CalendarLegendWidget()),
+      ),
+    );
+
+    final missedItem = find
+        .ancestor(of: find.text('Non effectuée'), matching: find.byType(Row))
+        .first;
+    expect(
+      find.descendant(of: missedItem, matching: find.text('Non effectuée')),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(of: missedItem, matching: find.byType(Container)),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('Drawer opens the local account screen and settings', (
+    WidgetTester tester,
+  ) async {
+    final notifications = MockNotificationService();
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
           authStateProvider.overrideWith((ref) => Stream.value(null)),
           confessionsProvider.overrideWith(() => MockConfessionsNotifier()),
+          notificationServiceProvider.overrideWith(
+            (ref) async => notifications,
+          ),
         ],
         child: MaterialApp(
           theme: AppTheme.lightTheme,
@@ -130,13 +214,98 @@ void main() {
     );
 
     await tester.pumpAndSettle();
-    expect(find.text('Local'), findsOneWidget);
-    await tester.tap(find.text('Local'));
+    await tester.tap(find.byKey(const ValueKey('open-navigation-drawer')));
+    await tester.pumpAndSettle();
+    expect(find.byType(Drawer), findsOneWidget);
+    expect(find.text('Hors ligne • stockage local'), findsOneWidget);
+    await tester.tap(find.text('Compte & Sauvegarde'));
     await tester.pumpAndSettle();
 
     expect(find.byType(AccountCloudBackupScreen), findsOneWidget);
     expect(find.text('Stockage local'), findsOneWidget);
     expect(find.text('Continuer avec Google'), findsOneWidget);
+    expect(find.text('Rappels & Notifications'), findsNothing);
+    await tester.tap(find.byTooltip('Paramètres'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(SettingsScreen), findsOneWidget);
+    expect(find.text('Rythme de confession'), findsOneWidget);
+    expect(find.text('Toutes les 3 semaines (21 jours)'), findsOneWidget);
+    expect(find.text('Rappels & Notifications'), findsOneWidget);
+    expect(find.text('09:00'), findsOneWidget);
+    expect(find.text('Tester une notification'), findsOneWidget);
+    expect(find.text('Apparence'), findsOneWidget);
+    final appearanceSelector = tester.widget<SegmentedButton<ThemeMode>>(
+      find.byType(SegmentedButton<ThemeMode>),
+    );
+    expect(
+      appearanceSelector.style?.backgroundColor?.resolve({
+        WidgetState.selected,
+      }),
+      AppTheme.liturgicalIndigo,
+    );
+    expect(
+      appearanceSelector.style?.foregroundColor?.resolve({
+        WidgetState.selected,
+      }),
+      AppTheme.alabaster,
+    );
+    expect(
+      appearanceSelector.style?.backgroundColor?.resolve({}),
+      AppTheme.lightSurfaceContainerLow,
+    );
+
+    final previousRescheduleCount = notifications.rescheduleCount;
+    await tester.tap(find.widgetWithText(ChoiceChip, '4 sem.'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Toutes les 4 semaines (28 jours)'), findsOneWidget);
+    expect(
+      (await SharedPreferences.getInstance()).getInt(
+        'confession_frequency_weeks',
+      ),
+      4,
+    );
+    expect(notifications.rescheduleCount, previousRescheduleCount + 1);
+
+    await tester.tap(find.widgetWithText(ChoiceChip, '1 sem.'));
+    await tester.pumpAndSettle();
+    expect(find.text('Chaque semaine (7 jours)'), findsOneWidget);
+    expect(
+      tester
+          .widget<IconButton>(find.byKey(const ValueKey('frequency-decrement')))
+          .onPressed,
+      isNull,
+    );
+
+    await tester.tap(find.widgetWithText(ChoiceChip, '8 sem.'));
+    await tester.pumpAndSettle();
+    for (var index = 0; index < 4; index++) {
+      await tester.tap(find.byKey(const ValueKey('frequency-increment')));
+      await tester.pumpAndSettle();
+    }
+    expect(find.text('Toutes les 12 semaines (84 jours)'), findsOneWidget);
+    expect(
+      tester
+          .widget<IconButton>(find.byKey(const ValueKey('frequency-increment')))
+          .onPressed,
+      isNull,
+    );
+    await tester.tap(find.widgetWithText(ChoiceChip, '4 sem.'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byTooltip('Retour'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Retour au calendrier'));
+    await tester.pumpAndSettle();
+    expect(find.text('Cycle de 4 semaines'), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('open-navigation-drawer')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Paramètres'));
+    await tester.pumpAndSettle();
+    expect(find.byType(SettingsScreen), findsOneWidget);
+    expect(find.text('Apparence'), findsOneWidget);
   });
 
   testWidgets('Annual report filters by year and bounds year navigation', (
@@ -372,6 +541,9 @@ void main() {
             confessionsProvider.overrideWith(
               () => MockConfessionsNotifier([mockConfession]),
             ),
+            notificationServiceProvider.overrideWith(
+              (ref) async => MockNotificationService(),
+            ),
             selectedDateProvider.overrideWith(
               () => MockSelectedDateNotifier(testDate),
             ),
@@ -420,6 +592,9 @@ void main() {
             confessionsProvider.overrideWith(
               () => MockConfessionsNotifier([mockConfession]),
             ),
+            notificationServiceProvider.overrideWith(
+              (ref) async => MockNotificationService(),
+            ),
             selectedDateProvider.overrideWith(
               () => MockSelectedDateNotifier(predictedSaturday),
             ),
@@ -446,6 +621,89 @@ void main() {
     },
   );
 
+  testWidgets('A missed date can be marked completed later', (
+    WidgetTester tester,
+  ) async {
+    final missedDate = RenovoDateUtils.normalizeDate(
+      DateTime.now().subtract(const Duration(days: 4)),
+    );
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          confessionsProvider.overrideWith(() => MockConfessionsNotifier()),
+          notificationServiceProvider.overrideWith(
+            (ref) async => MockNotificationService(),
+          ),
+          selectedDateProvider.overrideWith(
+            () => MockSelectedDateNotifier(missedDate),
+          ),
+          missedPredictionsSetProvider.overrideWithValue({missedDate}),
+        ],
+        child: MaterialApp(
+          locale: const Locale('fr', 'FR'),
+          supportedLocales: const [Locale('fr', 'FR')],
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          theme: AppTheme.lightTheme,
+          home: const HomeScreen(),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text('Échéance non effectuée (délai de 72h dépassé)'),
+      findsOneWidget,
+    );
+    expect(
+      find.text('Vous pouvez enregistrer cette confession à tout moment'),
+      findsOneWidget,
+    );
+    expect(find.text('Marquer comme effectuée'), findsOneWidget);
+  });
+
+  testWidgets('Missed deadline badge truncates on narrow screens', (
+    WidgetTester tester,
+  ) async {
+    tester.view.physicalSize = const Size(250, 800);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    final missedDate = RenovoDateUtils.normalizeDate(
+      DateTime.now().subtract(const Duration(days: 4)),
+    );
+    const missedLabel = 'Échéance non effectuée (délai de 72h dépassé)';
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          confessionsProvider.overrideWith(() => MockConfessionsNotifier()),
+          selectedDateProvider.overrideWith(
+            () => MockSelectedDateNotifier(missedDate),
+          ),
+          missedPredictionsSetProvider.overrideWithValue({missedDate}),
+        ],
+        child: MaterialApp(
+          theme: AppTheme.lightTheme,
+          home: const Scaffold(
+            body: SingleChildScrollView(child: DetailsCard()),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final badgeText = tester.widget<Text>(find.text(missedLabel));
+    expect(badgeText.maxLines, 1);
+    expect(badgeText.overflow, TextOverflow.ellipsis);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('Future selected dates remain visible but cannot be recorded', (
     WidgetTester tester,
   ) async {
@@ -456,6 +714,9 @@ void main() {
       ProviderScope(
         overrides: [
           confessionsProvider.overrideWith(() => MockConfessionsNotifier()),
+          notificationServiceProvider.overrideWith(
+            (ref) async => MockNotificationService(),
+          ),
           selectedDateProvider.overrideWith(
             () => MockSelectedDateNotifier(futureDate),
           ),

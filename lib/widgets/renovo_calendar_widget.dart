@@ -20,6 +20,7 @@ class RenovoCalendarWidget extends ConsumerWidget {
     final focusedDay = ref.watch(focusedDayProvider);
     final confessionsMap = ref.watch(confessionsMapProvider);
     final predictionsSet = ref.watch(predictionsSetProvider);
+    final missedDatesSet = ref.watch(missedPredictionsSetProvider);
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final surfaceContainer = isDark ? AppTheme.darkSurfaceContainer : AppTheme.lightSurfaceContainer;
@@ -160,6 +161,7 @@ class RenovoCalendarWidget extends ConsumerWidget {
                     isToday: RenovoDateUtils.isSameDay(day, DateTime.now()),
                     confessionsMap: confessionsMap,
                     predictionsSet: predictionsSet,
+                    missedDatesSet: missedDatesSet,
                     primaryColor: primaryColor,
                     onPrimary: onPrimary,
                     onSurface: onSurface,
@@ -173,6 +175,7 @@ class RenovoCalendarWidget extends ConsumerWidget {
                     isToday: RenovoDateUtils.isSameDay(day, DateTime.now()),
                     confessionsMap: confessionsMap,
                     predictionsSet: predictionsSet,
+                    missedDatesSet: missedDatesSet,
                     primaryColor: primaryColor,
                     onPrimary: onPrimary,
                     onSurface: onSurface,
@@ -187,6 +190,7 @@ class RenovoCalendarWidget extends ConsumerWidget {
                     isToday: true,
                     confessionsMap: confessionsMap,
                     predictionsSet: predictionsSet,
+                    missedDatesSet: missedDatesSet,
                     primaryColor: primaryColor,
                     onPrimary: onPrimary,
                     onSurface: onSurface,
@@ -207,6 +211,7 @@ class RenovoCalendarWidget extends ConsumerWidget {
     required bool isToday,
     required Map<DateTime, dynamic> confessionsMap,
     required Set<DateTime> predictionsSet,
+    required Set<DateTime> missedDatesSet,
     required Color primaryColor,
     required Color onPrimary,
     required Color onSurface,
@@ -215,6 +220,7 @@ class RenovoCalendarWidget extends ConsumerWidget {
     final norm = RenovoDateUtils.normalizeDate(day);
     final hasConfession = confessionsMap.containsKey(norm);
     final isPredicted = predictionsSet.contains(norm);
+    final isMissed = missedDatesSet.contains(norm);
 
     Color? backgroundColor;
     Color textColor = onSurface;
@@ -227,6 +233,16 @@ class RenovoCalendarWidget extends ConsumerWidget {
       // Ring 1px Antique Gold for predicted Saturday
       border = Border.all(color: AppTheme.antiqueGold, width: 1);
       textColor = onSurface;
+    } else if (isMissed) {
+      border = Border.all(
+        color: (isDark
+            ? AppTheme.darkOnSurfaceVariant
+            : AppTheme.lightOnSurfaceVariant).withValues(alpha: 0.35),
+        width: 1,
+      );
+      textColor = isDark
+          ? AppTheme.darkOnSurfaceVariant
+          : AppTheme.lightOnSurfaceVariant;
     } else if (isToday) {
       backgroundColor = isDark
           ? AppTheme.darkSurfaceContainerLow
@@ -238,6 +254,12 @@ class RenovoCalendarWidget extends ConsumerWidget {
       dotColor = isSelected ? onPrimary : AppTheme.sageEmerald;
     } else if (isPredicted) {
       dotColor = isSelected ? onPrimary : AppTheme.antiqueGold;
+    } else if (isMissed) {
+      dotColor = isSelected
+          ? onPrimary
+          : (isDark
+                ? AppTheme.darkOnSurfaceVariant
+                : AppTheme.lightOnSurfaceVariant).withValues(alpha: 0.6);
     }
 
     return Center(

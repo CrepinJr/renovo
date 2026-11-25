@@ -1,0 +1,354 @@
+<!DOCTYPE html><html lang="fr"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Renovo — Paramètres</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'liturgical-indigo': '#2C3E6B',
+        'on-liturgical-indigo': '#FFFFFF',
+        'sage-emerald': '#2E7D5B',
+        'on-sage-emerald': '#FFFFFF',
+        'sage-tint': '#E8F3EE',
+        'on-sage-tint': '#003824',
+        'antique-gold': '#D49A3A',
+        'on-antique-gold': '#281800',
+        'gold-tint': '#FFEEDB',
+        'on-gold-tint': '#442C00',
+        'alabaster': '#FAF8F5',
+        'obsidian': '#121316',
+        'slate-charcoal': '#1C1E24',
+        'light-primary': '#2C3E6B',
+        'light-on-primary': '#FFFFFF',
+        'light-primary-container': '#DAE2FF',
+        'light-on-primary-container': '#021945',
+        'light-surface': '#FAF8F5',
+        'light-surface-container': '#FFFFFF',
+        'light-surface-container-low': '#F2F0ED',
+        'light-on-surface': '#1C1B18',
+        'light-on-surface-variant': '#5E5E5C',
+        'light-outline': '#EAE5DC',
+        'light-outline-variant': '#E4E2DF',
+        'dark-primary': '#B4C5FB',
+        'dark-on-primary': '#021945',
+        'dark-primary-container': '#1C2F5B',
+        'dark-on-primary-container': '#DAE2FF',
+        'dark-surface': '#121316',
+        'dark-surface-container': '#1C1E24',
+        'dark-surface-container-low': '#191B23',
+        'dark-on-surface': '#F3F1ED',
+        'dark-on-surface-variant': '#ACABA8',
+        'dark-outline': '#2A2D35',
+        'dark-outline-variant': '#2E3038',
+      },
+      borderRadius: {
+        'sm': '6px',
+        'DEFAULT': '12px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '20px',
+        '2xl': '24px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '12px',
+        'gutter-lg': '16px',
+        'gutter-xl': '20px',
+        'section': '24px',
+        'page-margin': '20px',
+      },
+      fontFamily: {
+        'display': ['"Lora"', 'sans-serif'],
+        'headline': ['"Lora"', 'sans-serif'],
+        'title': ['"Plus Jakarta Sans"', 'sans-serif'],
+        'body': ['"Plus Jakarta Sans"', 'sans-serif'],
+        'label': ['"Plus Jakarta Sans"', 'sans-serif'],
+      },
+      fontSize: {
+        'display-lg': ['40px', { lineHeight: '48px', letterSpacing: '-0.5px', fontWeight: '500' }],
+        'display-lg-mobile': ['32px', { lineHeight: '38px', letterSpacing: '-0.25px', fontWeight: '500' }],
+        'headline-lg': ['28px', { lineHeight: '34px', letterSpacing: '-0.25px', fontWeight: '600' }],
+        'headline-md': ['22px', { lineHeight: '28px', letterSpacing: '-0.15px', fontWeight: '600' }],
+        'title-lg': ['18px', { lineHeight: '24px', letterSpacing: '-0.1px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-md': ['14px', { lineHeight: '21px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-sm': ['13px', { lineHeight: '19px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['14px', { lineHeight: '20px', letterSpacing: '0.1px', fontWeight: '600' }],
+        'label-md': ['12px', { lineHeight: '16px', letterSpacing: '0.2px', fontWeight: '500' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.3px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '260ms',
+        'surface-exit': '180ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>
+    .material-symbols-outlined {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      line-height: 1 !important;
+      box-sizing: content-box;
+      overflow: hidden;
+      white-space: nowrap;
+      direction: ltr;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body class="bg-light-surface dark:bg-dark-surface text-light-on-surface dark:text-dark-on-surface font-body antialiased transition-colors duration-surface-enter ease-surface-enter">
+  <div class="min-h-[884px] w-full max-w-[390px] mx-auto flex flex-col justify-between px-page-margin pt-gutter-lg pb-section gap-gutter-xl" data-stitch-vh="min-h-[884px]===min-h-screen">
+
+    <div class="flex flex-col gap-gutter-lg">
+      <!-- Header -->
+      <header class="flex items-center gap-gutter-sm pt-gutter-xs">
+        <a href="../home/AccueilCalendrier.html" aria-label="Retour au calendrier" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline text-light-on-surface dark:text-dark-on-surface transition-colors duration-state-change ease-state-change hover:bg-light-surface-container-low dark:hover:bg-dark-surface-container-low">
+          <span class="material-symbols-outlined text-[18px]" aria-hidden="true">arrow_back</span>
+        </a>
+        <h1 class="font-headline text-headline-md text-light-on-surface dark:text-dark-on-surface" data-design-text-token="headline-md">
+          Paramètres
+        </h1>
+      </header>
+
+      <!-- Main Settings Cards -->
+      <main class="flex flex-col gap-gutter-lg">
+
+        <!-- CARTE 1 : RYTHME DE CONFESSION -->
+        <article data-component-id="card-action" data-component-type="card" data-component-variant="action" class="w-full bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline rounded-xl p-gutter-xl shadow-sm flex flex-col gap-gutter-lg">
+          <header class="flex flex-col gap-gutter-xs">
+            <h2 class="font-headline text-title-lg text-light-on-surface dark:text-dark-on-surface" data-design-text-token="title-lg">
+              Rythme de confession
+            </h2>
+            <p class="font-body text-body-sm text-light-on-surface-variant dark:text-dark-on-surface-variant text-pretty" data-design-text-token="body-sm">
+              Définissez l&#39;intervalle souhaité entre deux confessions.
+            </p>
+          </header>
+
+          <!-- Quick-select Chip Grid -->
+          <div id="rhythm-chips" class="flex flex-wrap gap-gutter-sm" role="radiogroup" aria-label="Intervalle rapide">
+            <button type="button" data-weeks="1" class="rhythm-chip px-gutter-md py-gutter-xs rounded-full bg-light-surface-container-low dark:bg-dark-surface-container-low border border-light-outline dark:border-dark-outline text-light-on-surface dark:text-dark-on-surface font-label text-label-md transition-colors duration-state-change ease-state-change">
+              <span data-design-text-token="label-md">1 sem.</span>
+            </button>
+            <button type="button" data-weeks="2" class="rhythm-chip px-gutter-md py-gutter-xs rounded-full bg-light-surface-container-low dark:bg-dark-surface-container-low border border-light-outline dark:border-dark-outline text-light-on-surface dark:text-dark-on-surface font-label text-label-md transition-colors duration-state-change ease-state-change">
+              <span data-design-text-token="label-md">2 sem.</span>
+            </button>
+            <button type="button" data-weeks="3" aria-checked="true" class="rhythm-chip px-gutter-md py-gutter-xs rounded-full bg-light-primary-container dark:bg-dark-primary-container border border-antique-gold text-light-on-primary-container dark:text-dark-on-primary-container font-label text-label-md transition-colors duration-state-change ease-state-change">
+              <span data-design-text-token="label-md">3 sem. (Recommandé)</span>
+            </button>
+            <button type="button" data-weeks="4" class="rhythm-chip px-gutter-md py-gutter-xs rounded-full bg-light-surface-container-low dark:bg-dark-surface-container-low border border-light-outline dark:border-dark-outline text-light-on-surface dark:text-dark-on-surface font-label text-label-md transition-colors duration-state-change ease-state-change">
+              <span data-design-text-token="label-md">4 sem.</span>
+            </button>
+            <button type="button" data-weeks="6" class="rhythm-chip px-gutter-md py-gutter-xs rounded-full bg-light-surface-container-low dark:bg-dark-surface-container-low border border-light-outline dark:border-dark-outline text-light-on-surface dark:text-dark-on-surface font-label text-label-md transition-colors duration-state-change ease-state-change">
+              <span data-design-text-token="label-md">6 sem.</span>
+            </button>
+            <button type="button" data-weeks="8" class="rhythm-chip px-gutter-md py-gutter-xs rounded-full bg-light-surface-container-low dark:bg-dark-surface-container-low border border-light-outline dark:border-dark-outline text-light-on-surface dark:text-dark-on-surface font-label text-label-md transition-colors duration-state-change ease-state-change">
+              <span data-design-text-token="label-md">8 sem.</span>
+            </button>
+          </div>
+
+          <!-- Fine Stepper (- / +) -->
+          <div class="flex items-center justify-between gap-gutter-sm px-gutter-sm py-gutter-xs rounded-md bg-light-surface dark:bg-dark-surface border border-light-outline dark:border-dark-outline">
+            <button id="rhythm-minus" type="button" aria-label="Réduire d&#39;une semaine" class="inline-flex items-center justify-center w-8 h-8 rounded-md bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline text-light-on-surface dark:text-dark-on-surface font-title text-title-md transition-colors duration-state-change ease-state-change hover:border-light-primary dark:hover:border-dark-primary">
+              <span data-design-text-token="title-md">−</span>
+            </button>
+            <span id="rhythm-stepper-label" class="font-label text-label-md text-light-on-surface dark:text-dark-on-surface tabular-nums text-center" data-design-text-token="label-md">
+              Toutes les 3 semaines (21 jours)
+            </span>
+            <button id="rhythm-plus" type="button" aria-label="Augmenter d&#39;une semaine" class="inline-flex items-center justify-center w-8 h-8 rounded-md bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline text-light-on-surface dark:text-dark-on-surface font-title text-title-md transition-colors duration-state-change ease-state-change hover:border-light-primary dark:hover:border-dark-primary">
+              <span data-design-text-token="title-md">+</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- CARTE 2 : RAPPELS & NOTIFICATIONS -->
+        <article data-component-id="card-action" data-component-type="card" data-component-variant="action" class="w-full bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline rounded-xl p-gutter-xl shadow-sm flex flex-col gap-gutter-lg">
+          <header class="flex items-center justify-between gap-gutter-sm">
+            <div class="flex items-center gap-gutter-sm min-w-0">
+              <span class="material-symbols-outlined text-[20px] text-liturgical-indigo dark:text-dark-primary shrink-0" aria-hidden="true">notifications</span>
+              <h2 class="font-headline text-title-lg text-light-on-surface dark:text-dark-on-surface" data-design-text-token="title-lg">
+                Rappels &amp; Notifications
+              </h2>
+            </div>
+            <button id="reminders-switch" type="button" role="switch" aria-checked="true" aria-label="Activer les rappels" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-liturgical-indigo transition-colors duration-state-change ease-state-change">
+              <span id="reminders-switch-thumb" aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-light-surface-container dark:bg-dark-surface-container shadow-sm transition-transform duration-state-change ease-state-change translate-x-5"></span>
+            </button>
+          </header>
+
+          <!-- Reminder Time Row -->
+          <button id="reminder-time-btn" type="button" class="w-full flex items-center justify-between gap-gutter-sm px-gutter-md py-gutter-sm rounded-md bg-light-surface dark:bg-dark-surface border border-light-outline dark:border-dark-outline transition-colors duration-state-change ease-state-change hover:border-light-primary dark:hover:border-dark-primary">
+            <span class="font-body text-body-md text-light-on-surface dark:text-dark-on-surface" data-design-text-token="body-md">
+              Heure des rappels
+            </span>
+            <span class="inline-flex items-center gap-gutter-xs px-gutter-md py-gutter-xs rounded-full bg-light-surface-container-low dark:bg-dark-surface-container-low border border-light-outline dark:border-dark-outline font-label text-label-md text-liturgical-indigo dark:text-dark-primary tabular-nums">
+              <span class="material-symbols-outlined text-[15px]" aria-hidden="true">schedule</span>
+              <span id="reminder-time-label" data-design-text-token="label-md">09:00</span>
+            </span>
+          </button>
+
+          <!-- Summary Lines with Colored Bullets -->
+          <div class="flex flex-col gap-gutter-xs px-gutter-xs">
+            <div class="flex items-start gap-gutter-sm">
+              <span class="w-1.5 h-1.5 rounded-full bg-antique-gold mt-2 shrink-0" aria-hidden="true"></span>
+              <p class="font-body text-body-sm text-light-on-surface-variant dark:text-dark-on-surface-variant text-pretty" data-design-text-token="body-sm">
+                Avant l&#39;échéance : <span class="text-light-on-surface dark:text-dark-on-surface font-medium">7 jours • 3 jours • 24h avant</span>
+              </p>
+            </div>
+            <div class="flex items-start gap-gutter-sm">
+              <span class="w-1.5 h-1.5 rounded-full bg-light-on-surface-variant/60 dark:bg-dark-on-surface-variant/60 mt-2 shrink-0" aria-hidden="true"></span>
+              <p class="font-body text-body-sm text-light-on-surface-variant dark:text-dark-on-surface-variant text-pretty" data-design-text-token="body-sm">
+                Après l&#39;échéance : <span class="text-light-on-surface dark:text-dark-on-surface font-medium">24h • 72h après</span> (puis marquée non effectuée)
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARTE 3 : APPARENCE -->
+        <article data-component-id="card-elevated" data-component-type="card" data-component-variant="elevated" class="w-full bg-light-surface-container dark:bg-dark-surface-container border border-light-outline dark:border-dark-outline rounded-xl p-gutter-xl shadow-sm flex flex-col gap-gutter-md">
+          <h2 class="font-headline text-title-lg text-light-on-surface dark:text-dark-on-surface" data-design-text-token="title-lg">
+            Apparence
+          </h2>
+
+          <div class="grid grid-cols-3 p-gutter-xs rounded-md bg-light-surface dark:bg-dark-surface border border-light-outline dark:border-dark-outline gap-gutter-xs" role="radiogroup" aria-label="Thème de l&#39;application">
+            <button type="button" data-theme="system" class="theme-seg-btn py-gutter-sm rounded-sm font-label text-label-md text-light-on-surface-variant dark:text-dark-on-surface-variant transition-colors duration-state-change ease-state-change">
+              <span data-design-text-token="label-md">Système</span>
+            </button>
+            <button type="button" data-theme="light" aria-checked="true" class="theme-seg-btn py-gutter-sm rounded-sm bg-light-primary-container dark:bg-dark-primary-container text-light-on-primary-container dark:text-dark-on-primary-container font-label text-label-md transition-colors duration-state-change ease-state-change">
+              <span data-design-text-token="label-md">Clair</span>
+            </button>
+            <button type="button" data-theme="dark" class="theme-seg-btn py-gutter-sm rounded-sm font-label text-label-md text-light-on-surface-variant dark:text-dark-on-surface-variant transition-colors duration-state-change ease-state-change">
+              <span data-design-text-token="label-md">Sombre</span>
+            </button>
+          </div>
+        </article>
+
+      </main>
+    </div>
+
+    <!-- Discreet Footer -->
+    <footer class="flex flex-col items-center text-center gap-gutter-xs pt-gutter-md">
+      <p class="font-label text-label-sm text-light-on-surface-variant dark:text-dark-on-surface-variant" data-design-text-token="label-sm">
+        Renovo • Version 2.1.0
+      </p>
+      <p class="font-body text-body-sm text-light-on-surface-variant dark:text-dark-on-surface-variant" data-design-text-token="body-sm">
+        Données privées synchronisées sur votre compte
+      </p>
+    </footer>
+
+  </div>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const activeChipCls = 'rhythm-chip px-gutter-md py-gutter-xs rounded-full bg-light-primary-container dark:bg-dark-primary-container border border-antique-gold text-light-on-primary-container dark:text-dark-on-primary-container font-label text-label-md transition-colors duration-state-change ease-state-change';
+      const inactiveChipCls = 'rhythm-chip px-gutter-md py-gutter-xs rounded-full bg-light-surface-container-low dark:bg-dark-surface-container-low border border-light-outline dark:border-dark-outline text-light-on-surface dark:text-dark-on-surface font-label text-label-md transition-colors duration-state-change ease-state-change';
+
+      let weeks = 3;
+      const chips = document.querySelectorAll('.rhythm-chip');
+      const stepperLabel = document.getElementById('rhythm-stepper-label');
+
+      function updateRhythm() {
+        const days = weeks * 7;
+        stepperLabel.textContent = weeks === 1
+          ? 'Toutes les 1 semaine (7 jours)'
+          : 'Toutes les ' + weeks + ' semaines (' + days + ' jours)';
+        chips.forEach(function (c) {
+          const w = Number(c.getAttribute('data-weeks'));
+          c.className = w === weeks ? activeChipCls : inactiveChipCls;
+          c.setAttribute('aria-checked', w === weeks ? 'true' : 'false');
+        });
+      }
+
+      chips.forEach(function (c) {
+        c.addEventListener('click', function () {
+          weeks = Number(c.getAttribute('data-weeks'));
+          updateRhythm();
+        });
+      });
+
+      document.getElementById('rhythm-minus').addEventListener('click', function () {
+        if (weeks > 1) { weeks--; updateRhythm(); }
+      });
+      document.getElementById('rhythm-plus').addEventListener('click', function () {
+        if (weeks < 12) { weeks++; updateRhythm(); }
+      });
+
+      const remindersSwitch = document.getElementById('reminders-switch');
+      const remindersThumb = document.getElementById('reminders-switch-thumb');
+      let remindersEnabled = true;
+
+      remindersSwitch.addEventListener('click', function () {
+        remindersEnabled = !remindersEnabled;
+        remindersSwitch.setAttribute('aria-checked', remindersEnabled ? 'true' : 'false');
+        if (remindersEnabled) {
+          remindersSwitch.classList.remove('bg-light-outline', 'dark:bg-dark-outline');
+          remindersSwitch.classList.add('bg-liturgical-indigo');
+          remindersThumb.classList.remove('translate-x-0');
+          remindersThumb.classList.add('translate-x-5');
+        } else {
+          remindersSwitch.classList.remove('bg-liturgical-indigo');
+          remindersSwitch.classList.add('bg-light-outline', 'dark:bg-dark-outline');
+          remindersThumb.classList.remove('translate-x-5');
+          remindersThumb.classList.add('translate-x-0');
+        }
+      });
+
+      const reminderTimes = ['09:00', '18:00', '20:00', '08:00'];
+      let timeIdx = 0;
+      document.getElementById('reminder-time-btn').addEventListener('click', function () {
+        timeIdx = (timeIdx + 1) % reminderTimes.length;
+        document.getElementById('reminder-time-label').textContent = reminderTimes[timeIdx];
+      });
+
+      const segBtns = document.querySelectorAll('.theme-seg-btn');
+      const activeSegCls = 'theme-seg-btn py-gutter-sm rounded-sm bg-light-primary-container dark:bg-dark-primary-container text-light-on-primary-container dark:text-dark-on-primary-container font-label text-label-md transition-colors duration-state-change ease-state-change';
+      const inactiveSegCls = 'theme-seg-btn py-gutter-sm rounded-sm font-label text-label-md text-light-on-surface-variant dark:text-dark-on-surface-variant transition-colors duration-state-change ease-state-change';
+
+      function setThemeChoice(choice) {
+        segBtns.forEach(function (btn) {
+          const match = btn.getAttribute('data-theme') === choice;
+          btn.className = match ? activeSegCls : inactiveSegCls;
+          btn.setAttribute('aria-checked', match ? 'true' : 'false');
+        });
+        const isDark = choice === 'dark' || (choice === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        root.classList.toggle('dark', isDark);
+        try { localStorage.setItem('renovo-theme', isDark ? 'dark' : 'light'); } catch (e) {}
+      }
+
+      segBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          setThemeChoice(btn.getAttribute('data-theme'));
+        });
+      });
+
+      try {
+        if (localStorage.getItem('renovo-theme') === 'dark') setThemeChoice('dark');
+      } catch (e) {}
+    })();
+  </script>
+
+
+</body></html>

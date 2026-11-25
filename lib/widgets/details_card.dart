@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../core/theme/app_theme.dart';
 import '../core/utils/date_utils.dart';
 import '../data/models/confession.dart';
 import '../data/repositories/confession_repository.dart';
 import '../providers/confessions_provider.dart';
+import '../providers/frequency_provider.dart';
 import '../providers/predictions_provider.dart';
 import '../providers/selected_date_provider.dart';
 import '../screens/confession_form_sheet.dart';
@@ -20,19 +22,27 @@ class DetailsCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedDate = ref.watch(selectedDateProvider);
     final confessionsMap = ref.watch(confessionsMapProvider);
+    final cycleWeeks =
+        ref.watch(confessionFrequencyWeeksProvider).asData?.value ?? 3;
     final predictionsSet = ref.watch(predictionsSetProvider);
+    final missedDatesSet = ref.watch(missedPredictionsSetProvider);
 
     final normalized = RenovoDateUtils.normalizeDate(selectedDate);
     final confession = confessionsMap[normalized];
     final isPredicted = predictionsSet.contains(normalized);
+    final isMissed = missedDatesSet.contains(normalized);
     final today = RenovoDateUtils.normalizeDate(DateTime.now());
     final isFutureDate = normalized.isAfter(today);
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final surfaceContainer = isDark ? AppTheme.darkSurfaceContainer : AppTheme.lightSurfaceContainer;
+    final surfaceContainer = isDark
+        ? AppTheme.darkSurfaceContainer
+        : AppTheme.lightSurfaceContainer;
     final outlineColor = isDark ? AppTheme.darkOutline : AppTheme.lightOutline;
     final onSurface = isDark ? AppTheme.darkOnSurface : AppTheme.lightOnSurface;
-    final onSurfaceVariant = isDark ? AppTheme.darkOnSurfaceVariant : AppTheme.lightOnSurfaceVariant;
+    final onSurfaceVariant = isDark
+        ? AppTheme.darkOnSurfaceVariant
+        : AppTheme.lightOnSurfaceVariant;
     final primaryColor = isDark ? AppTheme.darkPrimary : AppTheme.lightPrimary;
     final onPrimary = isDark ? AppTheme.darkOnPrimary : AppTheme.lightOnPrimary;
 
@@ -59,17 +69,34 @@ class DetailsCard extends ConsumerWidget {
             // Status Pill
             if (confession != null)
               _buildPill(
-                backgroundColor: isDark ? const Color(0xFF003824) : AppTheme.sageTint,
-                textColor: isDark ? const Color(0xFF6EE7B7) : AppTheme.onSageTint,
+                backgroundColor: isDark
+                    ? const Color(0xFF003824)
+                    : AppTheme.sageTint,
+                textColor: isDark
+                    ? const Color(0xFF6EE7B7)
+                    : AppTheme.onSageTint,
                 dotColor: AppTheme.sageEmerald,
                 label: 'Confession effectuée',
               )
             else if (isPredicted)
               _buildPill(
-                backgroundColor: isDark ? const Color(0xFF442C00) : AppTheme.goldTint,
-                textColor: isDark ? const Color(0xFFFDE68A) : AppTheme.onGoldTint,
+                backgroundColor: isDark
+                    ? const Color(0xFF442C00)
+                    : AppTheme.goldTint,
+                textColor: isDark
+                    ? const Color(0xFFFDE68A)
+                    : AppTheme.onGoldTint,
                 dotColor: AppTheme.antiqueGold,
                 label: 'Prochaine confession prévue',
+              )
+            else if (isMissed)
+              _buildPill(
+                backgroundColor: isDark
+                    ? AppTheme.darkSurfaceContainerLow
+                    : AppTheme.lightSurfaceContainerLow,
+                textColor: onSurfaceVariant,
+                dotColor: onSurfaceVariant.withValues(alpha: 0.6),
+                label: 'Échéance non effectuée (délai de 72h dépassé)',
               )
             else
               _buildPill(
@@ -100,7 +127,11 @@ class DetailsCard extends ConsumerWidget {
             Text(
               confession != null
                   ? 'Enregistrée dans votre suivi personnel'
-                  : 'Rythme automatique de 3 semaines',
+                  : isMissed
+                  ? 'Vous pouvez enregistrer cette confession à tout moment'
+                  : cycleWeeks == 1
+                  ? 'Cycle de 1 semaine'
+                  : 'Cycle de $cycleWeeks semaines',
               style: GoogleFonts.plusJakartaSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
@@ -122,7 +153,11 @@ class DetailsCard extends ConsumerWidget {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.church_outlined, size: 18, color: onSurfaceVariant),
+                        Icon(
+                          Icons.church_outlined,
+                          size: 18,
+                          color: onSurfaceVariant,
+                        ),
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
@@ -136,12 +171,17 @@ class DetailsCard extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    if (confession.notes != null && confession.notes!.trim().isNotEmpty) ...[
+                    if (confession.notes != null &&
+                        confession.notes!.trim().isNotEmpty) ...[
                       const SizedBox(height: 8),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.notes_outlined, size: 18, color: onSurfaceVariant),
+                          Icon(
+                            Icons.notes_outlined,
+                            size: 18,
+                            color: onSurfaceVariant,
+                          ),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
@@ -177,7 +217,8 @@ class DetailsCard extends ConsumerWidget {
                       style: OutlinedButton.styleFrom(
                         foregroundColor: Theme.of(context).colorScheme.error,
                         side: BorderSide(
-                          color: Theme.of(context).colorScheme.error.withValues(alpha: 0.5),
+                          color: Theme.of(context).colorScheme.error
+                              .withValues(alpha: 0.5),
                         ),
                       ),
                       onPressed: () => _confirmDelete(context, ref, confession),
@@ -187,7 +228,7 @@ class DetailsCard extends ConsumerWidget {
                   ),
                 ],
               ),
-            ] else if (isPredicted && !isFutureDate) ...[
+            ] else if ((isPredicted || isMissed) && !isFutureDate) ...[
               const SizedBox(height: 16),
               SizedBox(
                 width: double.infinity,
@@ -201,7 +242,8 @@ class DetailsCard extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  onPressed: () => _openAddSheet(context, initialDate: selectedDate),
+                  onPressed: () =>
+                      _openAddSheet(context, initialDate: selectedDate),
                   child: Text(
                     'Marquer comme effectuée',
                     style: GoogleFonts.plusJakartaSans(
@@ -218,7 +260,8 @@ class DetailsCard extends ConsumerWidget {
                 width: double.infinity,
                 height: 48,
                 child: OutlinedButton.icon(
-                  onPressed: () => _openAddSheet(context, initialDate: selectedDate),
+                  onPressed: () =>
+                      _openAddSheet(context, initialDate: selectedDate),
                   icon: const Icon(Icons.add_rounded, size: 18),
                   label: const Text('Ajouter une confession pour ce jour'),
                 ),
@@ -248,19 +291,20 @@ class DetailsCard extends ConsumerWidget {
           Container(
             width: 8,
             height: 8,
-            decoration: BoxDecoration(
-              color: dotColor,
-              shape: BoxShape.circle,
-            ),
+            decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle),
           ),
           const SizedBox(width: 6),
-          Text(
-            label,
-            style: GoogleFonts.plusJakartaSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              letterSpacing: 0.2,
-              color: textColor,
+          Flexible(
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.plusJakartaSans(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.2,
+                color: textColor,
+              ),
             ),
           ),
         ],

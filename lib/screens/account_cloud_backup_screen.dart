@@ -8,8 +8,9 @@ import '../core/theme/app_theme.dart';
 import '../data/database/database_helper.dart';
 import '../data/repositories/confession_repository.dart';
 import '../providers/confessions_provider.dart';
-import '../providers/theme_provider.dart';
+import '../providers/notification_provider.dart';
 import '../services/auth_service.dart';
+import 'settings_screen.dart';
 import '../widgets/annual_report_section.dart';
 import '../widgets/backup_confessions_modal.dart';
 import '../widgets/sign_out_confirmation_modal.dart';
@@ -66,6 +67,9 @@ class _AccountCloudBackupScreenState
       await FirestoreConfessionRepository(uid: user.uid).syncNow();
       ref.invalidate(confessionsProvider);
       ref.invalidate(parishesProvider);
+      final confessions = await ref.read(confessionsProvider.future);
+      final notifications = await ref.read(notificationServiceProvider.future);
+      await notifications.rescheduleReminders(confessions: confessions);
       ref.invalidate(lastSyncAtProvider(user.uid));
       if (mounted) _showMessage('Synchronisation terminée.');
     } catch (error) {
@@ -92,7 +96,6 @@ class _AccountCloudBackupScreenState
 
   @override
   Widget build(BuildContext context) {
-    final themeMode = ref.watch(themeModeProvider);
     final authState = ref.watch(authStateProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final background = isDark ? AppTheme.darkSurface : AppTheme.alabaster;
@@ -123,10 +126,11 @@ class _AccountCloudBackupScreenState
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: IconButton(
-              tooltip: 'Changer le thème',
-              onPressed: () =>
-                  ref.read(themeModeProvider.notifier).toggleNext(),
-              icon: Icon(_themeIcon(themeMode)),
+              tooltip: 'Paramètres',
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(builder: (_) => const SettingsScreen()),
+              ),
+              icon: const Icon(Icons.settings_outlined),
             ),
           ),
         ],
@@ -439,17 +443,6 @@ class _AccountCloudBackupScreenState
     }
     return 'Dernière synchro le '
         '${DateFormat('d MMM yyyy à HH:mm', 'fr_FR').format(local)}';
-  }
-
-  IconData _themeIcon(ThemeMode mode) {
-    switch (mode) {
-      case ThemeMode.light:
-        return Icons.light_mode_outlined;
-      case ThemeMode.dark:
-        return Icons.dark_mode_outlined;
-      case ThemeMode.system:
-        return Icons.brightness_auto_outlined;
-    }
   }
 }
 
